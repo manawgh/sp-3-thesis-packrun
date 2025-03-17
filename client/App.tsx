@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, Pressable, Text, View } from 'react-native';
+import styles from "./helpers/Styles.js";
+import { useState } from 'react';
+import helper from './helpers/helper.js';
 
 export default function App() {
+  const [maptxt, setMapText] = useState('');
+
+  function getLocation() {
+    setMapText('getting gps position...');
+    helper.Android.GPS.getLocation(setMapText);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start wo!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.homePage.mainContainer}>
+
+      <View style={styles.homePage.mapMessage}>
+        <Text style={styles.homePage.message}>{maptxt}</Text>
+      </View>
+      <View style={styles.homePage.map}>
+        <View style={styles.homePage.vertButtonsContainer}>
+          <Button title="a" ></Button>
+          <Button title="a" ></Button>
+          <Button title="a" ></Button>
+          <Button title="a" ></Button>
+        </View>
+      </View>
+      <View style={styles.homePage.horButtonsContainer}>
+        <Button title="a" ></Button>
+        <Button title="a" ></Button>
+        <Button title="a" ></Button>
+        <Button title="a" ></Button>
+        <Button title="a" ></Button>
+      </View>
+      <View style={styles.homePage.lowerButtonsView}>
+        <Pressable onPress={getLocation} style={styles.homePage.buttonView}>
+          <Text style={styles.homePage.textButton}>START</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
