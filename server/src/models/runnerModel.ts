@@ -1,14 +1,16 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./model";
 
-interface RunnerAttributes {
-  id: bigint,
+export interface RunnerAttributes {
+  id?: bigint,
+  userId: string,
   latitude: number,
   longitude: number, //how will the location look like from frontend? 
 }
 
 class Runner extends Model<RunnerAttributes> implements RunnerAttributes {
   public id!: bigint;
+  userId!: string;
   public latitude!: number;
   public longitude!: number;
 }
@@ -22,13 +24,17 @@ Runner.init(
       autoIncrement: true,
     },
     latitude: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     longitude: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   },
   {
     sequelize,
