@@ -4,13 +4,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    mapview: {
-        flex: 1,
+    mapcontainer: {
+        height: 400,
+        width: '100%',
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
+    mapview: {
+        ...StyleSheet.absoluteFillObject
+    },
     topdash: {
-        height: 100,
+        height: 68,
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: '#f8f8f8',
@@ -42,6 +46,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 180,
         backgroundColor: '#f8f8f8',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
     }
 });
 
