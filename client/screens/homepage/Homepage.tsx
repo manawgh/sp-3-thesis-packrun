@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, PermissionsAndroid, Platform, TouchableOpacity, SafeAreaView } from 'react-native';
-import DashButton from '../../components/DashButton/DashButton';
 import MapView from 'react-native-maps';
-// import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import BottomDash from '../../components/BottomDash';
 import styles from './styles';
-
-const icons = {
-    run: require('../../assets/running.png'),
-    messages: require('../../assets/messages.png'),
-    list: require('../../assets/rectangle-list.png'),
-}
 
 export default function Homepage() {
     return (
@@ -28,9 +21,7 @@ export default function Homepage() {
                 </MapView>
             </View>
             <View style={styles.bottomdash}>
-                <DashButton image={icons.list} />
-                <DashButton image={icons.run} />
-                <DashButton image={icons.messages} />
+                <BottomDash />
             </View>
         </View>
      </SafeAreaView>

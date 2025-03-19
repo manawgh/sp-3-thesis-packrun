@@ -10,18 +10,18 @@ type RootStackParamList = {
 };
 
 const icons = {
-    run: require('../../assets/running.png'),
-    messages: require('../../assets/messages.png'),
-    list: require('../../assets/rectangle-list.png'),
+    run: require('../assets/running.png'),
+    messages: require('../assets/messages.png'),
+    list: require('../assets/rectangle-list.png'),
 }
 
 export default function BottomDash() {
 
     return (
         <View style={styles.bottomdash}>
-            <DashButton image={icons.list} />
-            <DashButton image={icons.run} />
-            <DashButton image={icons.messages} />
+            <DashButton image={icons.list} onPress={() => {}}/>
+            <DashButton image={icons.run} onPress={() => {}}/>
+            <DashButton image={icons.messages} onPress={() => {}} />
         </View>
     );
 }

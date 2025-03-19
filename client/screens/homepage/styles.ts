@@ -5,13 +5,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mapcontainer: {
-        height: 400,
+        height: 660,
         width: '100%',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
     },
     mapview: {
-        ...StyleSheet.absoluteFillObject
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     topdash: {
         height: 68,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     bottomdash: {
         width: '100%',
-        height: 180,
+        height: 120,
         backgroundColor: '#f8f8f8',
         flexDirection: 'row',
         justifyContent: 'space-around'
