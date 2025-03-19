@@ -3,7 +3,8 @@ import React from 'react';
 import styles from './styles';
 
 interface DashButtonProps {
-    image: ImageSourcePropType; // Replace 'any' with the appropriate type, e.g., ImageSourcePropType
+    image: ImageSourcePropType;
+    // onPress: () => void;
 }
 
 export default function DashButton({image}: DashButtonProps) {

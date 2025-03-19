@@ -16,13 +16,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         paddingBottom: 10,
     },
-    bottomdash: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        height: 126,
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-    },
     dashtext: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -44,7 +37,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 20,
         fontWeight: 'bold',
-        transform: [{ rotate: '-45deg]' }],
+    },
+    bottomdash: {
+        width: '100%',
+        height: 180,
+        backgroundColor: '#f8f8f8',
     }
 });
 
