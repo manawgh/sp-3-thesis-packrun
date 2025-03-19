@@ -1,43 +1,30 @@
 import { Button, Pressable, Text, View } from 'react-native';
-import styles from "./helpers/Styles.js";
 import { useState } from 'react';
-import helper from './helpers/helper.js';
+// import helper from './helpers/helper.js';
+import Homepage from './screens/homepage/Homepage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStaticNavigation } from '@react-navigation/native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
-  const [maptxt, setMapText] = useState('');
+  // const [maptxt, setMapText] = useState('');
 
-  function getLocation() {
-    setMapText('getting gps position...');
-    helper.Android.GPS.getLocation(setMapText);
-  }
+  // function getLocation() {
+  //   setMapText('getting gps position...');
+  //   helper.Android.GPS.getLocation(setMapText);
+  // }
 
   return (
-    <View style={styles.homePage.mainContainer}>
-
-      <View style={styles.homePage.mapMessage}>
-        <Text style={styles.homePage.message}>{maptxt}</Text>
-      </View>
-      <View style={styles.homePage.map}>
-        <View style={styles.homePage.vertButtonsContainer}>
-          <Button title="a" ></Button>
-          <Button title="a" ></Button>
-          <Button title="a" ></Button>
-          <Button title="a" ></Button>
-        </View>
-      </View>
-      <View style={styles.homePage.horButtonsContainer}>
-        <Button title="a" ></Button>
-        <Button title="a" ></Button>
-        <Button title="a" ></Button>
-        <Button title="a" ></Button>
-        <Button title="a" ></Button>
-      </View>
-      <View style={styles.homePage.lowerButtonsView}>
-        <Pressable onPress={getLocation} style={styles.homePage.buttonView}>
-          <Text style={styles.homePage.textButton}>START</Text>
-        </Pressable>
-      </View>
-    </View>
+    <SafeAreaView>
+      <Navigation />
+    </SafeAreaView>
   );
 }
 
+const RootStack = createNativeStackNavigator({
+  screens: {
+    Home: Homepage,
+  },
+});
+
+const Navigation = createStaticNavigation(RootStack);
