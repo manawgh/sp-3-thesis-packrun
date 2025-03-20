@@ -5,12 +5,7 @@ import styles from './styles';
 // navigation imports:
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
-type RootStackParamList = {
-  Home: undefined;
-  Chat: undefined;
-  Runs: undefined;
-};
+import RootStackParamList from './types';
 
 const icons = {
     run: require('../assets/running.png'),

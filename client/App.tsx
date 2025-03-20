@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStaticNavigation } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import RunHistory from './screens/runhistory/RunHistory';
+import CurrentRun from './screens/Runtracking/CurrentRun';
 
 export default function App() {
 
@@ -22,7 +23,8 @@ const RootStack = createNativeStackNavigator({
   screens: {
     Home: Homepage,
     Chat: Chatscreen,
-    Runs: RunHistory
+    Runs: RunHistory,
+    CurrentRun: CurrentRun
   },
 });
 
