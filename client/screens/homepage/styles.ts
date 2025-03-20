@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     mapview: {
-        ...StyleSheet.absoluteFillObject,
+        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
@@ -41,13 +41,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    bottomdash: {
-        width: '100%',
-        height: 120,
-        backgroundColor: '#f8f8f8',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
     }
 });
 

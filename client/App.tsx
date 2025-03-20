@@ -6,14 +6,9 @@ import Chatscreen from './screens/chatpage/Chatscreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStaticNavigation } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import RunHistory from './screens/runhistory/RunHistory';
 
 export default function App() {
-  // const [maptxt, setMapText] = useState('');
-
-  // function getLocation() {
-  //   setMapText('getting gps position...');
-  //   helper.Android.GPS.getLocation(setMapText);
-  // }
 
   return (
     <SafeAreaView>
@@ -23,9 +18,11 @@ export default function App() {
 }
 
 const RootStack = createNativeStackNavigator({
+  initialRouteName: 'Home',
   screens: {
     Home: Homepage,
     Chat: Chatscreen,
+    Runs: RunHistory
   },
 });
 

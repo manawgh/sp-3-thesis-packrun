@@ -20,9 +20,7 @@ export default function Homepage() {
                     </TouchableOpacity>
                 </MapView>
             </View>
-            <View style={styles.bottomdash}>
-                <BottomDash />
-            </View>
+            <BottomDash />
         </View>
      </SafeAreaView>
     );

@@ -1,13 +1,13 @@
 import { Text, View } from 'react-native';
-import BottomDash from '../../components/DashButton/BottomDash';
+import styles from './styles';
 
 export default function RunHistory() {
     return (
         <>
-        <View>
+        <View style={styles.container}>
+            <View style={styles.topdash}></View>
             <Text>running history screen</Text>
         </View>
-        <BottomDash />
         </>
     );
 }
