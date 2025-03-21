@@ -2,25 +2,61 @@ import { Request, Response } from "express"
 import Runner, { RunnerAttributes } from "../models/runnerModel";
 import sequelize from "../models/model";
 import { QueryTypes } from "sequelize";
+import ChatRoom, { chatRoomAttributes } from "../models/chatRoomModel";
+import { assignToDatabase, getUniqueChatRoomId } from "./controllerFunctions";
 
-export function setLocation(req: Request, res: Response) {
+export async function setLocation(req: Request, res: Response) {
 
   if (isMissingData(req)) res.status(400).json('Missing fields');
   else {
 
     const { userId, longitude, latitude } = req.body;
     const runner: RunnerAttributes = { userId, longitude, latitude }
-    console.log('runner', runner);
-    Runner.create(runner)
-      .then(runner => {
-        console.log(`saved runner with id= ${runner.userId}`);
-        res.status(200).json(runner.userId);
 
-      })
-      .catch(() => { res.status(500).json("server error") });
+    const isRunnerLoggedIn = await Runner.findOne({ where: { userId } });
 
+    if (isRunnerLoggedIn) {
+
+      const updatePosition = await Runner.update({ longitude, latitude }, { where: { userId } });
+      console.log('updated=', updatePosition);
+    }
+    else {
+
+      const loginRunner = await Runner.create(runner);
+      console.log('created', loginRunner);
+    }
+
+    const asignedChatRoom = await assignToDatabase(runner);
+    res.status(201).json({ chatroom: asignedChatRoom });
     console.log(`long=${longitude} lat=${latitude} userId=${userId}`);
   }
+}
+
+export async function getAllMessages(req: Request, res: Response) {
+  const chatRoomId = req.params.chatroom;
+  console.log(chatRoomId);
+  if (chatRoomId) {
+    const room = await ChatRoom.findOne({ where: { chatRoomId } });
+    if (room && room.messages) res.json(room.messages);
+    else res.json([]);
+  }
+};
+
+export async function postMessage(req: Request, res: Response) {
+  const chatRoomId = req.params.chatroom;
+
+  if (chatRoomId && req.body) {
+    const room = await ChatRoom.findOne({ where: { chatRoomId } });
+    if (room && room.messages) {
+      const newMessages = room.messages ? [...room.messages, req.body] : [req.body];
+      ChatRoom.update({ messages: newMessages }, { where: { chatRoomId } });
+    }
+  }
+};
+
+
+function findAll() {
+  ChatRoom.findAll().then(results => console.log('the contents are: ', results)).catch(error => console.log(error));
 }
 
 function isMissingData(req: Request): boolean {
@@ -30,23 +66,7 @@ function isMissingData(req: Request): boolean {
 }
 
 
-function calculateDistance(user: any, db: any) {
-  const R = 3958.8;
-  const dLat = deg2rad(db.latitude - user.latitude);
-  const dLon = deg2rad(db.longitude - user.longitude);
-  const haversFormula =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(user.latitude)) * Math.cos(deg2rad(db.latitude)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const ang = 2 * Math.atan2(Math.sqrt(haversFormula), Math.sqrt(1 - haversFormula));
-  const kms = R * ang;
-  const kmsRounded = Math.round(kms);
 
-}
-function deg2rad(deg: number) {
-  return deg * (Math.PI / 180);
-
-}
 export function getNearbyRunners(req: Request, res: Response) {
   async (req: Request, res: Response) => {
     const runnerId = req.params.id;

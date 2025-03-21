@@ -1,19 +1,23 @@
 import express, { Router } from 'express';
-import { setLocation, getNearbyRunners, getAllRunners } from './controllers/controller'
+import { setLocation, getAllMessages, postMessage } from './controllers/controller'
 const router: Router = express.Router();
 
-// Defining routes for the User: 
-
+// Location setting for runner:
 router.post('/location', setLocation);
 
-router.get('/nearby/:id/:distance', getNearbyRunners);
+// Getting all the runners from the database
+// router.get('/runner', getAllRunners);
 
-router.get('/runner', getAllRunners);
+// (GET): get all messages from the database for a specific chat
+router.get('/messages/:chatroom', getAllMessages);
 
+// (POST): add a message to the chat of a specific chatroom
+router.post('/message/:chatroom', postMessage);
 
-// (GET): get all messages from the database
-// (POST): add a message to the chat
 // (PUT): edit a message
+
+// Getting runners nearby
+// router.get('/nearby/:id/:distance', getNearbyRunners);
 
 // RUNNING ROUTES
 // (POST): add a new run to the database 
