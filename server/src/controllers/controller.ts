@@ -1,9 +1,7 @@
 import { Request, Response } from "express"
 import Runner, { RunnerAttributes } from "../models/runnerModel";
-import sequelize from "../models/model";
-import { QueryTypes } from "sequelize";
-import ChatRoom, { chatRoomAttributes } from "../models/chatRoomModel";
-import { assignToDatabase, getUniqueChatRoomId } from "./controllerFunctions";
+import ChatRoom from "../models/chatRoomModel";
+import { assignToDatabase } from "./controllerFunctions";
 
 export async function setLocation(req: Request, res: Response) {
 
@@ -54,11 +52,6 @@ export async function postMessage(req: Request, res: Response) {
   }
 };
 
-
-function findAll() {
-  ChatRoom.findAll().then(results => console.log('the contents are: ', results)).catch(error => console.log(error));
-}
-
 function isMissingData(req: Request): boolean {
   return !req.body || Object.keys(req.body).length === 0
     || !Object.keys(req.body).includes('longitude') || !Object.keys(req.body).includes('latitude')
@@ -67,6 +60,19 @@ function isMissingData(req: Request): boolean {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
 export function getNearbyRunners(req: Request, res: Response) {
   async (req: Request, res: Response) => {
     const runnerId = req.params.id;
@@ -98,4 +104,4 @@ export async function getAllRunners(req: Request, res: Response) {
     console.log(error);
     res.status(400).json({ error: error })
   }
-};
+}; */

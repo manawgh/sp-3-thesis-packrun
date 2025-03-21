@@ -7,12 +7,12 @@ export interface chatRoomAttributes {
   usersId: string[],
   messages: Messages[]
 }
-export interface Messages  {
+export interface Messages {
   author: string,
   message: string,
   time: Date,
 }
-//{author messagge ,time}
+
 class ChatRoom extends Model<chatRoomAttributes> implements chatRoomAttributes {
   id!: bigint;
   chatRoomId!: string;
@@ -42,5 +42,4 @@ ChatRoom.init(
     }
   }, { sequelize, tableName: "chatrooms" }
 );
-// ChatRoom.sync();
 export default ChatRoom;
