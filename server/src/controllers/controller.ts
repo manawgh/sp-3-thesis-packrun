@@ -47,7 +47,9 @@ export async function postMessage(req: Request, res: Response) {
     const room = await ChatRoom.findOne({ where: { chatRoomId } });
     if (room && room.messages) {
       const newMessages = room.messages ? [...room.messages, req.body] : [req.body];
-      ChatRoom.update({ messages: newMessages }, { where: { chatRoomId } });
+      const isMessagePublished = await ChatRoom.update({ messages: newMessages }, { where: { chatRoomId } });
+      if (isMessagePublished) res.status(201).send('Message published');
+      else res.status(500).send('Server error');
     }
   }
 };
