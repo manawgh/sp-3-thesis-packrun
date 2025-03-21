@@ -19,7 +19,7 @@ export default function Homepage() {
                 <MapView style={styles.mapview}>
                     <TouchableOpacity style={styles.startbtn} onPress={() => navigation.navigate('CurrentRun')}>
                         <View style={{transform: [{ rotate: '-45deg' }]}}>
-                        <Text style={styles.startbtntext}>Start</Text>
+                            <Text style={styles.startbtntext}>Run!</Text>
                         </View>
                     </TouchableOpacity>
                 </MapView>

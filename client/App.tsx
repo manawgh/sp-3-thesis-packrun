@@ -1,22 +1,13 @@
-import { Button, Pressable, Text, View } from 'react-native';
-import { useState } from 'react';
-// import helper from './helpers/helper.js';
+// App.tsx
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Homepage from './screens/homepage/Homepage';
-import Chatscreen from './screens/chatpage/Chatscreen'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createStaticNavigation } from '@react-navigation/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Chatscreen from './screens/chatpage/Chatscreen';
 import RunHistory from './screens/runhistory/RunHistory';
 import CurrentRun from './screens/Runtracking/CurrentRun';
-
-export default function App() {
-
-  return (
-    <SafeAreaView>
-      <Navigation />
-    </SafeAreaView>
-  );
-}
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStaticNavigation } from '@react-navigation/native';
+import { RunProvider } from './context/RunContext';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Home',
@@ -29,3 +20,13 @@ const RootStack = createNativeStackNavigator({
 });
 
 const Navigation = createStaticNavigation(RootStack);
+
+export default function App() {
+  return (
+    <SafeAreaView>
+      <RunProvider>
+        <Navigation />
+      </RunProvider>
+    </SafeAreaView>
+  );
+}
