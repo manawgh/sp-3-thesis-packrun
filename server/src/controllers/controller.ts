@@ -1,31 +1,39 @@
 import { Request, Response } from "express"
-import Runner, { RunnerAttributes } from "../models/runnerModel";
-import ChatRoom from "../models/chatRoomModel";
+import RunnerModel, { Runner } from "../models/runnerModel";
+import ChatRoomModel from "../models/chatRoomModel";
 import { assignToDatabase } from "./controllerFunctions";
 
 export async function setLocation(req: Request, res: Response) {
 
-  if (isMissingData(req)) res.status(400).json('Missing fields');
+  for (let i = 0; i < 5; i++)console.log();
+
+  if (isMissingFields(req)) res.status(400).json('Missing fields');
+  else if (incorrectCoordinates(req)) res.status(400).json('Incorrect coordinates ');
   else {
 
     const { userId, longitude, latitude } = req.body;
-    const runner: RunnerAttributes = { userId, longitude, latitude }
+    const runner: Runner = { userId, longitude, latitude }
 
-    const isRunnerLoggedIn = await Runner.findOne({ where: { userId } });
+    const isRunnerLoggedIn = await RunnerModel.findOne({ where: { userId } });
 
     if (isRunnerLoggedIn) {
 
-      const updatePosition = await Runner.update({ longitude, latitude }, { where: { userId } });
+      const updatePosition = await RunnerModel.update({ longitude, latitude }, { where: { userId } });
       console.log('updated=', updatePosition);
     }
     else {
 
-      const loginRunner = await Runner.create(runner);
+      const loginRunner = await RunnerModel.create(runner);
       console.log('created', loginRunner);
     }
 
     const asignedChatRoom = await assignToDatabase(runner);
-    res.status(201).json({ chatroom: asignedChatRoom });
+
+    //
+
+    const updateChatRoom = await RunnerModel.update({ asignedChatRoom }, { where: { userId } });
+    if (updateChatRoom) res.status(201).json({ chatroom: asignedChatRoom });
+    else res.status(500).send('Server error');
     console.log(`long=${longitude} lat=${latitude} userId=${userId}`);
   }
 }
@@ -34,7 +42,7 @@ export async function getAllMessages(req: Request, res: Response) {
   const chatRoomId = req.params.chatroom;
   console.log(chatRoomId);
   if (chatRoomId) {
-    const room = await ChatRoom.findOne({ where: { chatRoomId } });
+    const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (room && room.messages) res.json(room.messages);
     else res.json([]);
   }
@@ -44,32 +52,25 @@ export async function postMessage(req: Request, res: Response) {
   const chatRoomId = req.params.chatroom;
 
   if (chatRoomId && req.body) {
-    const room = await ChatRoom.findOne({ where: { chatRoomId } });
+    const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (room && room.messages) {
       const newMessages = room.messages ? [...room.messages, req.body] : [req.body];
-      const isMessagePublished = await ChatRoom.update({ messages: newMessages }, { where: { chatRoomId } });
+      const isMessagePublished = await ChatRoomModel.update({ messages: newMessages }, { where: { chatRoomId } });
       if (isMessagePublished) res.status(201).send('Message published');
       else res.status(500).send('Server error');
     }
   }
 };
 
-function isMissingData(req: Request): boolean {
+function isMissingFields(req: Request): boolean {
   return !req.body || Object.keys(req.body).length === 0
     || !Object.keys(req.body).includes('longitude') || !Object.keys(req.body).includes('latitude')
     || !Object.keys(req.body).includes('userId')
 }
 
-
-
-
-
-
-
-
-
-
-
+function incorrectCoordinates(req: Request) {
+  return req.body.latitude < -90 || req.body.latitude > 90 || req.body.longitude < -180 || req.body.longitude > 180;
+}
 
 
 
@@ -96,14 +97,4 @@ export function getNearbyRunners(req: Request, res: Response) {
       });
   }
 }
-
-//! I think this function should not exist for users
-export async function getAllRunners(req: Request, res: Response) {
-  try {
-    const allRunners = await Runner.findAll();
-    res.status(200).json(allRunners)
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error })
-  }
-}; */
+*/

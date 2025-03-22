@@ -1,14 +1,15 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./model";
 
-export interface RunnerAttributes {
+export interface Runner {
   id?: bigint,
   userId: string,
   latitude: number,
-  longitude: number, 
+  longitude: number,
+  asignedChatRoom?: string
 }
 
-class Runner extends Model<RunnerAttributes> implements RunnerAttributes {
+class RunnerModel extends Model<Runner> implements Runner {
   public id!: bigint;
   userId!: string;
   public latitude!: number;
@@ -16,7 +17,7 @@ class Runner extends Model<RunnerAttributes> implements RunnerAttributes {
 }
 
 // initializing a new table with sequelize
-Runner.init(
+RunnerModel.init(
   {
     id: {
       type: DataTypes.BIGINT,
@@ -42,4 +43,4 @@ Runner.init(
   }
 );
 
-export default Runner; 
+export default RunnerModel; 
