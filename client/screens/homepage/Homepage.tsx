@@ -29,7 +29,6 @@ export default function Homepage() {
         helpers.Android.GPS.getLocation(setCoords).then(() => console.log(coords));
     }, []);
 
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
     return (
         <SafeAreaView>
             <View style={global.container}>
@@ -37,7 +36,7 @@ export default function Homepage() {
                 {/* <View style={global.topdash}>
                     <Text style={global.dashtext}>Great day for a run!</Text>
                 </View> */}
-
+                
                 <View style={styles.mapcontainer}>
                     { coords.length
                         ?
@@ -49,18 +48,15 @@ export default function Homepage() {
                                 <AntDesign name="enviroment" size={48} color="black" />
                             </MarkerView>
 
-                            <TouchableOpacity style={styles.startbtn} onPress={() => navigation.navigate('CurrentRun')}>
+                            <TouchableOpacity style={styles.startbtn}>
                                 <View style={{ transform: [{ rotate: '-45deg' }] }}>
                                     <Text style={styles.startbtntext}>Start</Text>
                                 </View>
                             </TouchableOpacity>
                         </MapView>
-
                         :
-                        <View></View>}
-                            
+                        <View></View>}       
                 </View>
-
             </View>
         </SafeAreaView>
     );

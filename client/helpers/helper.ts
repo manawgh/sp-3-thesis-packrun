@@ -32,3 +32,7 @@ async function getLocation (setCoords: Function): Promise<void> {
 }
 
 export default { http: { post }, Android: { GPS: { getLocation } }, IOS: {} };
+
+// post should call getLoc and not the other way round
+// flag triggered by button to check how often we send data and where to
+// 

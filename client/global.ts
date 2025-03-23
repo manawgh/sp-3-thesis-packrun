@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      /* width: '100%',
-      height: 690,
-      backgroundColor: 'lightgrey', */
+      width: '100%',
+      height: 1,
+      position: 'relative'
     },
     topdash: {
         width: '100%',

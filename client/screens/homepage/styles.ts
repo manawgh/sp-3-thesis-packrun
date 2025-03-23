@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     mapcontainer: {
-        height: 640,
+        height: 675,
         width: '100%',        
     },
     mapview: {

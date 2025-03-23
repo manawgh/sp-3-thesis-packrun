@@ -20,6 +20,8 @@ export default StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: -34
   },
   input: {
     flex: 1,
