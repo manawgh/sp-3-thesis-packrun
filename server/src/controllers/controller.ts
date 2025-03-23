@@ -1,9 +1,9 @@
 import { Request, Response } from "express"
 import RunnerModel, { Runner } from "../models/runnerModel";
 import ChatRoomModel from "../models/chatRoomModel";
-import { assignToDatabase } from "./controllerFunctions";
+import { assignToChatRoom } from "./controllerFunctions";
 
-export async function setLocation(req: Request, res: Response) {
+export async function setLocation(req: Request, res: Response, next: Function) {
 
   for (let i = 0; i < 5; i++)console.log();
 
@@ -27,15 +27,15 @@ export async function setLocation(req: Request, res: Response) {
       console.log('created', loginRunner);
     }
 
-    const asignedChatRoom = await assignToDatabase(runner);
-
-    //
-
-    const updateChatRoom = await RunnerModel.update({ asignedChatRoom }, { where: { userId } });
-    if (updateChatRoom) res.status(201).json({ chatroom: asignedChatRoom });
-    else res.status(500).send('Server error');
     console.log(`long=${longitude} lat=${latitude} userId=${userId}`);
+    next();
   }
+}
+export async function logUserInChatRoom(req: Request, res: Response) {
+  const runner: Runner = req.body;
+  const response = await assignToChatRoom(runner);
+  if (response) res.status(201).json(response);
+  else res.status(500).json('Server error');
 }
 
 export async function getAllMessages(req: Request, res: Response) {

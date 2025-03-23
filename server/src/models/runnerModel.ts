@@ -6,7 +6,7 @@ export interface Runner {
   userId: string,
   latitude: number,
   longitude: number,
-  asignedChatRoom?: string
+  assignedChatRoom?: string
 }
 
 class RunnerModel extends Model<Runner> implements Runner {
@@ -14,6 +14,7 @@ class RunnerModel extends Model<Runner> implements Runner {
   userId!: string;
   public latitude!: number;
   public longitude!: number;
+  assignedChatRoom!: string;
 }
 
 // initializing a new table with sequelize
@@ -35,6 +36,10 @@ RunnerModel.init(
     userId: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    assignedChatRoom: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   },
   {
