@@ -2,56 +2,30 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // navigation
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createStaticNavigation } from '@react-navigation/native';
 import HomePage from './screens/homepage/HomePage';
 import RunTracking from './screens/runtracking/RunTracking';
 import RunHistory from './screens/runhistory/RunHistory';
 import ChatScreen from './screens/chatscreen/ChatScreen';
-/* import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' */
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export default function App() {
 
+  const NavBar = createBottomTabNavigator();
+  const screenOptions = {
+    headerShown: true,
+  }
+
   return (
     <SafeAreaView style={{flex :1, backgroundColor: '#f8f8f8'}}>
-      <Navigation/>
+      <NavigationContainer>
+        <NavBar.Navigator screenOptions={screenOptions}>
+          <NavBar.Screen name='Home' component={HomePage}/>
+          <NavBar.Screen name='Track' component={RunTracking}/>
+          <NavBar.Screen name='History' component={RunHistory}/>
+          <NavBar.Screen name='Chat' component={ChatScreen}/>
+        </NavBar.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
-
-/* const NavBar = createBottomTabNavigator({
-  screens: {
-  },
-}); */
-
-const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
-  screens: {
-    Home: {
-      screen: HomePage,
-      options: {
-        headerShown: false,
-      }
-    },
-    Track: {
-      screen: RunTracking,
-      options: {
-        headerShown: false,
-      }
-    },
-    Runs: {
-      screen: RunHistory,
-      options: {
-        headerShown: false,
-      }
-    },
-    Chat: {
-      screen: ChatScreen,
-      options: {
-        headerShown: false,
-      }
-    }
-  }
-});
-
-const Navigation = createStaticNavigation(RootStack);

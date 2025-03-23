@@ -9,11 +9,6 @@ import styles from './styles';
 
 // socket.io
 import { io } from 'socket.io-client';
-
-
-import BottomDash from '../../components/BottomDash';
-
-
 const socket = io('http://192.168.1.116:3000', { transports: ['websocket'] });
 
 export default function Chatscreen() {
@@ -48,9 +43,9 @@ export default function Chatscreen() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1 }}>
-            <View style={global.topdash}>
+            {/* <View style={global.topdash}>
               <Text style={global.dashtext}>Arrange a group run!</Text>
-            </View>
+            </View> */}
             <FlatList
               data={messages}
               keyExtractor={(item) => item.id}
@@ -75,7 +70,6 @@ export default function Chatscreen() {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-      <BottomDash />
       
     </SafeAreaView>
   );

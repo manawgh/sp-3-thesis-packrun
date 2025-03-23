@@ -19,9 +19,6 @@ import styles from './styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 
-import BottomDash from '../../components/BottomDash';
-
-
 export default function Homepage() {
 
     const apiKey = 'aeeb6ec8-5770-404c-8f6d-271cad7b3798';
@@ -37,9 +34,9 @@ export default function Homepage() {
         <SafeAreaView>
             <View style={global.container}>
 
-                <View style={global.topdash}>
+                {/* <View style={global.topdash}>
                     <Text style={global.dashtext}>Great day for a run!</Text>
-                </View>
+                </View> */}
 
                 <View style={styles.mapcontainer}>
                     { coords.length
@@ -63,7 +60,6 @@ export default function Homepage() {
                         <View></View>}
                             
                 </View>
-                <BottomDash />
 
             </View>
         </SafeAreaView>
