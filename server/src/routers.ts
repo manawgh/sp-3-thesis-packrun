@@ -5,10 +5,11 @@ const router: Router = express.Router();
 
 router.post('/location', setLocation, logUserInChatRoom);
 
-router.get('/messages/:chatroom', getAllMessages);
+
+router.get('/messages/:userId', getAllMessages);
 
 // expected body: {author: string, message: string, time: stringDate}
-router.post('/message/:chatroom', postMessage);
+router.post('/message/:userId', postMessage);
 
 
 export default router;

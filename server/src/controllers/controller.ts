@@ -39,17 +39,21 @@ export async function logUserInChatRoom(req: Request, res: Response) {
 }
 
 export async function getAllMessages(req: Request, res: Response) {
-  const chatRoomId = req.params.chatroom;
-  console.log(chatRoomId);
+  const chatRoomId = await getChatRoomId(req);
   if (chatRoomId) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (room && room.messages) res.json(room.messages);
     else res.json([]);
-  }
-};
+  } else res.json([]);
 
+};
+async function getChatRoomId(req: Request) {
+  const userId = req.params.userId;
+  const runner = await RunnerModel.findOne({ where: { userId } });
+  return runner?.assignedChatRoom;
+}
 export async function postMessage(req: Request, res: Response) {
-  const chatRoomId = req.params.chatroom;
+  const chatRoomId = await getChatRoomId(req);
 
   if (chatRoomId && req.body) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
