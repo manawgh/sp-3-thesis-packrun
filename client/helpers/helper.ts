@@ -22,16 +22,13 @@ async function post (location: Location.LocationObject) {
   }
 }
 
-async function getLocation (setCoords: Function, setText: Function): Promise<void> {
-  const { status } = await Location.requestForegroundPermissionsAsync();
-  if (status !== 'granted') setText('Unable to fetch position: permission denied.');
-  else Location.getCurrentPositionAsync()
-    .then( position => { // todo: type proper
-      post(position);
+async function getLocation (setCoords: Function): Promise<void> {
+  await Location.requestForegroundPermissionsAsync();
+  Location.getCurrentPositionAsync()
+    .then( position => {
+      post(position); // contains
       setCoords([position.coords.longitude, position.coords.latitude]);
-      setText(`${position.coords.longitude}, ${position.coords.latitude}`);
     })
-    .catch(() => setText('Unable to fetch position: GPS error.')); // todo: use alert?
 }
 
 export default { http: { post }, Android: { GPS: { getLocation } }, IOS: {} };

@@ -1,15 +1,14 @@
-import { Button, Pressable, Text, View } from 'react-native';
-import { useState } from 'react';
-// import helper from './helpers/helper.js';
-import Homepage from './screens/homepage/Homepage';
-import Chatscreen from './screens/chatpage/Chatscreen'
+// react native
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+// navigation
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStaticNavigation } from '@react-navigation/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import HomePage from './screens/homepage/HomePage';
+import RunTracking from './screens/runtracking/RunTracking';
 import RunHistory from './screens/runhistory/RunHistory';
-import CurrentRun from './screens/Runtracking/CurrentRun';
+import ChatScreen from './screens/chatscreen/ChatScreen';
 /* import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' */
-import BottomDash from './components/BottomDash';
 
 export default function App() {
 
@@ -22,10 +21,6 @@ export default function App() {
 
 /* const NavBar = createBottomTabNavigator({
   screens: {
-    Home: Homepage,
-    Chat: Chatscreen,
-    Runs: RunHistory,
-    CurrentRun: CurrentRun
   },
 }); */
 
@@ -33,37 +28,30 @@ const RootStack = createNativeStackNavigator({
   initialRouteName: 'Home',
   screens: {
     Home: {
-      screen: Homepage,
+      screen: HomePage,
       options: {
         headerShown: false,
-      },
+      }
     },
-    Chat: {
-      screen: Chatscreen,
+    Track: {
+      screen: RunTracking,
       options: {
         headerShown: false,
-      },
+      }
     },
     Runs: {
       screen: RunHistory,
       options: {
         headerShown: false,
-      },
+      }
     },
-    CurrentRun: {
-      screen: CurrentRun,
+    Chat: {
+      screen: ChatScreen,
       options: {
         headerShown: false,
-      },
-    },
+      }
+    }
   }
-  /* initialRouteName: 'Home',
-  screens: {
-    Home: Homepage,           
-    Chat: Chatscreen,
-    Runs: RunHistory,
-    CurrentRun: CurrentRun
-  }, */
 });
 
 const Navigation = createStaticNavigation(RootStack);

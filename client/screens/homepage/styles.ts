@@ -1,29 +1,12 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    topdash: {
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-        paddingBottom: 10,
-    },
     mapcontainer: {
         height: 640,
         width: '100%',        
     },
     mapview: {
         flex: 1,
-    },
-    dashtext: {
-        marginTop: 7,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#333',
-        fontFamily: 'Roboto',
     },
     startbtn: {
         width: 90,

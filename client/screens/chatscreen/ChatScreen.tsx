@@ -1,10 +1,18 @@
-import * as Random from 'expo-random';
-import { Text, View, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import styles from './styles';
+// react native
 import React, { useEffect, useState } from 'react';
+import { Text, View, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+// styling
+import global from '../../global'
+import styles from './styles';
+
+// socket.io
 import { io } from 'socket.io-client';
+
+
 import BottomDash from '../../components/BottomDash';
+
 
 const socket = io('http://192.168.1.116:3000', { transports: ['websocket'] });
 
@@ -36,12 +44,12 @@ export default function Chatscreen() {
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+        style={global.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1 }}>
-            <View style={styles.topdash}>
-              <Text style={styles.dashtext}>Arrange a group run!</Text>
+            <View style={global.topdash}>
+              <Text style={global.dashtext}>Arrange a group run!</Text>
             </View>
             <FlatList
               data={messages}

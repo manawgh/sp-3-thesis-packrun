@@ -1,13 +1,13 @@
 import { Text, View } from 'react-native';
-import styles from './styles';
+import global from '../../global';
 import BottomDash from '../../components/BottomDash';
 
 export default function RunHistory() {
     return (
         <>
-            <View style={styles.container}>
-                <View style={styles.topdash}>
-                    <Text style={styles.dashtext}>Runs</Text>
+            <View style={global.container}>
+                <View style={global.topdash}>
+                    <Text style={global.dashtext}>Runs</Text>
                 </View>
             </View>
             <BottomDash/>
