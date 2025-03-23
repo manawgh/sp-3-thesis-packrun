@@ -15,9 +15,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vrch1e.PackRun",
+      "bundleIdentifier": "com.manawex.PackRun",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "We use your location to provide better services."
       }
     },
     "android": {
@@ -34,8 +35,11 @@
     },
     "extra": {
       "eas": {
-        "projectId": "ae64aaeb-da9b-4e10-9b6f-777d93e21b12"
+        "projectId": "c1c2ed8e-eea6-4914-9bb9-4c1998d10c28"
       }
-    }
+    },
+    "plugins": [
+      "@maplibre/maplibre-react-native"
+    ]
   }
 }

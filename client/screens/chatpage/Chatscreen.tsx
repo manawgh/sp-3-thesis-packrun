@@ -4,6 +4,7 @@ import styles from './styles';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { io } from 'socket.io-client';
+import BottomDash from '../../components/BottomDash';
 
 const socket = io('http://192.168.1.116:3000', { transports: ['websocket'] });
 
@@ -32,6 +33,7 @@ export default function Chatscreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
@@ -65,6 +67,8 @@ export default function Chatscreen() {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      <BottomDash />
+      
     </SafeAreaView>
   );
 }

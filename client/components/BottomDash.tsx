@@ -17,8 +17,8 @@ export default function BottomDash() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     return (
         <View style={styles.bottomdash}>
-            <DashButton image={icons.list} onPress={() => navigation.navigate('Runs')}/>
             <DashButton image={icons.run} onPress={() => navigation.navigate('Home')}/>
+            <DashButton image={icons.list} onPress={() => navigation.navigate('Runs')}/>
             <DashButton image={icons.messages} onPress={() => navigation.navigate('Chat')} />
         </View>
     );

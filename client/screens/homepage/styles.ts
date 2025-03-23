@@ -2,25 +2,24 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-    },
-    mapcontainer: {
-        height: 660,
-        width: '100%',
-    },
-    mapview: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        flex: 1
     },
     topdash: {
-        height: 68,
-        justifyContent: 'flex-end',
+        height: 50,
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f8f8f8',
         paddingBottom: 10,
     },
+    mapcontainer: {
+        height: 640,
+        width: '100%',        
+    },
+    mapview: {
+        flex: 1,
+    },
     dashtext: {
+        marginTop: 7,
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
@@ -35,6 +34,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(236, 97, 35, 0.88)',
         borderRadius: 16,
         marginBottom: 44,
+        alignSelf: 'center',
+        marginTop: 'auto'
     },
     startbtntext: {
         color: 'white',
