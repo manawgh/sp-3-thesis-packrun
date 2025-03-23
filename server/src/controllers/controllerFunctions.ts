@@ -44,7 +44,6 @@ async function createNewChatRoom(runner: Runner) {
   return isChatRoomCreated ? chatRoomId : undefined;
 }
 
-const indent = () => { for (let i = 0; i < 5; i++)console.log() };
 async function getNearestChatRoom(referencePoint: Runner): Promise<string | undefined> {
   try {
     const nearestChatRoom = await ChatRoomModel.findAll();
