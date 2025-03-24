@@ -5,11 +5,6 @@ import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 // helpers
 import helpers from '../../helpers/helper';
 
-// navigation
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import RootStackParamList from '../../components/types';
-
 // maplibre
 import { MapView, Camera, MarkerView } from '@maplibre/maplibre-react-native';
 
@@ -24,10 +19,24 @@ export default function Homepage() {
     const apiKey = 'aeeb6ec8-5770-404c-8f6d-271cad7b3798';
     const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${apiKey}`;
     const [coords, setCoords] = useState([]);
+    const [tracking, setTracking] = useState(false);
 
     useEffect(() => {
-        helpers.Android.GPS.getLocation(setCoords).then(() => console.log(coords));
+        helpers.Android.GPS.getLocation()
+        .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
+        .then(() => console.log(coords));
+        track();
     }, []);
+
+    function track () {
+        if (!tracking) {
+            currentTracking = tracking;
+            setTracking = !tracking
+            setTimeout( post, 300000 )
+        } 
+            
+        }
+    }
 
     return (
         <SafeAreaView>
@@ -48,11 +57,20 @@ export default function Homepage() {
                                 <AntDesign name="enviroment" size={48} color="black" />
                             </MarkerView>
 
-                            <TouchableOpacity style={styles.startbtn}>
+                            { tracking
+                            ?
+                            <TouchableOpacity style={styles.stopbtn} onPress={track}>
                                 <View style={{ transform: [{ rotate: '-45deg' }] }}>
-                                    <Text style={styles.startbtntext}>Start</Text>
+                                    <Text style={styles.btntext}>Stop</Text>
                                 </View>
                             </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.startbtn} onPress={track}>
+                            <View style={{ transform: [{ rotate: '-45deg' }] }}>
+                                <Text style={styles.btntext}>Start</Text>
+                            </View>
+                            </TouchableOpacity>
+                            }
                         </MapView>
                         :
                         <View></View>}       

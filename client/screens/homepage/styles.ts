@@ -14,13 +14,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         transform: [{ rotate: '45deg' }],
-        backgroundColor: 'rgba(236, 97, 35, 0.88)',
+        backgroundColor: 'rgba(11, 175, 74, 0.88)',
         borderRadius: 16,
         marginBottom: 44,
         alignSelf: 'center',
         marginTop: 'auto'
     },
-    startbtntext: {
+    stopbtn: {
+        width: 90,
+        height: 90,
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: [{ rotate: '45deg' }],
+        backgroundColor: 'rgba(238, 118, 62, 0.88)',
+        borderRadius: 16,
+        marginBottom: 44,
+        alignSelf: 'center',
+        marginTop: 'auto'
+    },
+    btntext: {
         color: 'white',
         fontFamily: 'Roboto',
         fontSize: 20,
