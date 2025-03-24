@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, DateDataType } from "sequelize";
 import sequelize from "./model";
 
 export interface Runner {
@@ -6,7 +6,8 @@ export interface Runner {
   userId: string,
   latitude: number,
   longitude: number,
-  assignedChatRoom?: string
+  assignedChatRoom?: string,
+  updatedAt?: Date;
 }
 
 class RunnerModel extends Model<Runner> implements Runner {
@@ -15,6 +16,7 @@ class RunnerModel extends Model<Runner> implements Runner {
   public latitude!: number;
   public longitude!: number;
   assignedChatRoom!: string;
+  updatedAt!: Date;
 }
 
 // initializing a new table with sequelize
