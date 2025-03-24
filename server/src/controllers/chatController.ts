@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import ChatRoomModel from "../models/chatRoomModel";
-import RunnerModel, { Runner } from "../models/runnerModel";
-import { assignToChatRoom } from "./helperFunctions";
+import Runner from "../models/runnerModel";
+import { assignToChatRoom, getAssignedChatRoom } from "./helperFunctions";
 
 export async function getAllMessages(req: Request, res: Response) {
-  const chatRoomId = await getChatRoomId(req);
+  const chatRoomId = await getAssignedChatRoom(req.params.userId);
   if (chatRoomId) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (room && room.messages) res.json(room.messages);
@@ -12,14 +12,15 @@ export async function getAllMessages(req: Request, res: Response) {
   } else res.json([]);
 };
 
-async function getChatRoomId(req: Request) {
+/* async function getChatRoomId(req: Request) {
   const userId = req.params.userId;
   const runner = await RunnerModel.findOne({ where: { userId } });
   return runner?.assignedChatRoom;
-}
+} */
+
 
 export async function postMessage(req: Request, res: Response) {
-  const chatRoomId = await getChatRoomId(req);
+  const chatRoomId = await getAssignedChatRoom(req.params.userId);
 
   if (chatRoomId && req.body) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });

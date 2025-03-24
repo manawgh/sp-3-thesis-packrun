@@ -3,10 +3,9 @@ import RunnerModel, { Runner } from "../models/runnerModel";
 import { removeRunnerFromChatRoom } from "./helperFunctions";
 
 //minutes of inactivity to autologout users
-const LOGIN_EXPIRES_MINUTES = 7;
+const LOGIN_EXPIRES_MINUTES = 5;
 
 export async function logUser(req: Request, res: Response, next: Function) {
-
 
   if (isMissingFields(req)) res.status(400).json('Missing fields');
   else if (incorrectCoordinates(req)) res.status(400).json('Incorrect coordinates ');
@@ -43,13 +42,13 @@ function incorrectCoordinates(req: Request) {
 }
 
 function checkExpiringSessions() {
+
   const now = Date.now();
 
   RunnerModel.findAll()
     .then(res => res.forEach(runner => {
       if (!runner.dataValues.updatedAt) logoutUser(runner);
       else now - runner.dataValues.updatedAt.getTime() >= LOGIN_EXPIRES_MINUTES * 1000 * 60 && logoutUser(runner);
-
     }))
     .catch(err => console.log('ERROR', err));
 
@@ -61,7 +60,5 @@ async function logoutUser(runner: Runner) {
     runnerEntry.destroy();
   }
 }
-
-
 
 setInterval(checkExpiringSessions, 1000 * 60 * LOGIN_EXPIRES_MINUTES);

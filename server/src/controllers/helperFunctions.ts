@@ -1,3 +1,4 @@
+import { run } from "node:test";
 import ChatRoomModel, { chatRoom } from "../models/chatRoomModel";
 import RunnerModel, { Runner } from "../models/runnerModel";
 
@@ -19,22 +20,16 @@ export async function assignToChatRoom(runner: Runner): Promise<any | undefined>
 
     if (runnerDbObj && nearestChatRoom.dataValues.chatRoomId && nearestChatRoom.dataValues.chatRoomId !== runnerDbObj.assignedChatRoom) {
 
-      const lastChatRoom = await ChatRoomModel.findOne({ where: { chatRoomId: runnerDbObj.dataValues.assignedChatRoom } });
-      if (lastChatRoom) await ChatRoomModel.update(
-        { usersId: lastChatRoom.usersId.filter(userId => userId !== runner.userId) },
-        { where: { chatRoomId: runnerDbObj.dataValues.assignedChatRoom } });
+      await removeRunnerFromChatRoom(runner.userId, runnerDbObj.assignedChatRoom);
 
       if (!nearestChatRoom.dataValues.usersId.includes(runner.userId)) {
-        nearestChatRoom.dataValues.usersId.push(runner.userId);
-        await ChatRoomModel.update(
-          { usersId: nearestChatRoom.dataValues.usersId },
-          { where: { chatRoomId } });
+        nearestChatRoom.usersId = [...nearestChatRoom.dataValues.usersId, runner.userId];
+        nearestChatRoom.save();
       }
-
-      await RunnerModel.update(
-        { assignedChatRoom: nearestChatRoom.chatRoomId },
-        { where: { userId: runner.userId } });
+      runnerDbObj.assignedChatRoom = nearestChatRoom.chatRoomId;
+      await runnerDbObj.save();
     }
+
     const nearbyUsers = nearestChatRoom.usersId.length - 1;
     return { assignedChatRoom: chatRoomId, nearbyUsers };
 
@@ -72,6 +67,7 @@ export async function removeRunnerFromChatRoom(runnerId: string, chatRoomId: str
     const chatRoom = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (chatRoom) {
       if (chatRoom.usersId.length > 1) {
+        
         await ChatRoomModel
           .update({ usersId: chatRoom.dataValues.usersId.filter(userId => userId != runnerId) },
             { where: { chatRoomId } })
@@ -79,6 +75,13 @@ export async function removeRunnerFromChatRoom(runnerId: string, chatRoomId: str
     }
   }
 }
+
+export async function getAssignedChatRoom(userId: string) {
+  if (!userId) return undefined;
+  const runner = await RunnerModel.findOne({ where: { userId } });
+  return runner?.assignedChatRoom;
+}
+
 function calculateDistance(user: Runner, db: chatRoom) {
 
   const dbLatitude = Number(db.chatRoomId.split('_')[0]);
