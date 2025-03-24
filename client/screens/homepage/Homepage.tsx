@@ -78,7 +78,6 @@ export default function Homepage() {
             </TouchableOpacity>
           </MapView>
         </View>
-        <BottomDash />
       </View>
     </SafeAreaView>
   );
