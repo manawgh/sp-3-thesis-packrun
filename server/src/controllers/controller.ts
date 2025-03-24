@@ -2,10 +2,9 @@ import { Request, Response } from "express"
 import RunnerModel, { Runner } from "../models/runnerModel";
 import ChatRoomModel from "../models/chatRoomModel";
 import { assignToChatRoom } from "./controllerFunctions";
+import sequelize from "../models/model";
 
 export async function setLocation(req: Request, res: Response, next: Function) {
-
-  for (let i = 0; i < 5; i++)console.log();
 
   if (isMissingFields(req)) res.status(400).json('Missing fields');
   else if (incorrectCoordinates(req)) res.status(400).json('Incorrect coordinates ');
@@ -75,8 +74,6 @@ function isMissingFields(req: Request): boolean {
 function incorrectCoordinates(req: Request) {
   return req.body.latitude < -90 || req.body.latitude > 90 || req.body.longitude < -180 || req.body.longitude > 180;
 }
-
-
 
 
 /* 
