@@ -5,6 +5,8 @@ const router: Router = express.Router();
 
 router.post('/location', setLocation, logUserInChatRoom);
 
+//todo add tracks
+// router.post('/tracks/:userId')
 
 router.get('/messages/:userId', getAllMessages);
 
