@@ -5,42 +5,84 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { io } from 'socket.io-client';
 
-const socket = io('http://192.168.1.116:3000', { transports: ['websocket'] });
+const socket = io('http://192.168.68.108:3000', { transports: ['websocket'] });
 
 export default function Chatscreen() {
-    const [messages, setMessages] = useState<{ id: string; senderId: String; text: string }[]>([]);
+
+    const [messages, setMessages] = useState<{ author: string; time: string; message: string }[]>([]);
     const [input, setInput] = useState('');
 
+    const getMessages = async () => {
+        const response = await fetch(`http://192.168.68.108:3000/messages/xXBobmanXx`)
+        if (!response.ok) throw new Error('Failed to send message');
+        
+        const resp = await response.json();
+        setMessages(resp);
+    }
+
     useEffect(() => {
-        socket.on('message', (message: { id: string; senderId: string; text: string }) => {
-        setMessages(prev => [...prev, message]);
-    });
-    return () => {
-        socket.off('message');
-    };
+        socket.on('message', (message: { author: string; time: string; message: string }) => {
+            setMessages(prev => [...prev, message]);
+        });
+        getMessages();
+        return () => {
+            socket.off('message');
+        };
     }, []);
-    const sendMessage = () => {
+
+    const sendMessage = async () => {
         if (input.trim() !== '') {
-            const newId = Date.now().toString();
-            const senderId1 = 'xXBobmanXx'
-            const message = { id: newId, senderId: senderId1, text: input };
-            console.log('message send purely on client');
-            socket.emit('message', message);
-            setInput('');
-            // for testing:
-            setTimeout(() => {
-                botSendMessage();
-            }, 5000);
+            const userId = 'xXBobmanXx'
+            const time = Date.now().toString();
+            const message = { author: userId, time: time, message: input };
+            try {
+                const response = await fetch(`http://192.168.68.108:3000/message/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(message),
+                });
+        
+                if (!response.ok) throw new Error('Failed to send message');
+        
+                await response.json();
+                console.log('Message saved:', message);
+        
+                // Also emit via Socket.IO for real-time updates
+                socket.emit('message', message);
+                setInput('');
+
+                // for testing:
+                setTimeout(() => {
+                    botSendMessage();
+                }, 5000);
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
 
     // for testing / demo:
-    const botSendMessage = () => {
-        const newId = Date.now().toString();
-        const senderId2 = 'Bertha Coolshoes'
-        const message = { id: newId, senderId: senderId2, text: 'how about saturday, 9am?' };
-        console.log('message send purely on client');
-        socket.emit('message', message);
+    const botSendMessage = async () => {
+        const userId = 'Bertha Coolshoes'
+        const time = Date.now().toString()
+        const message = { author: userId, time: time, message: 'how about saturday, 9am?' };
+        try {
+            const response = await fetch(`http://192.168.68.108:3000/message/${userId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(message),
+            });
+    
+            if (!response.ok) throw new Error('Failed to send message');
+    
+            await response.json();
+            console.log('Message saved:', message);
+    
+            // Also emit via Socket.IO for real-time updates
+            socket.emit('message', message);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
   return (
@@ -56,12 +98,12 @@ export default function Chatscreen() {
                 </View>
                 <FlatList
                 data={messages}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.time}
                 renderItem={({ item }) => (
                     <View>
-                        <Text style={item.senderId === 'xXBobmanXx' ? styles.username : styles.othername}>{item.senderId}</Text>
-                        <View style={item.senderId === 'xXBobmanXx' ? styles.userMessage : styles.otherMessage}>
-                            <Text style={styles.messageText}>{item.text}</Text>
+                        <Text style={item.author === 'xXBobmanXx' ? styles.username : styles.othername}>{item.author}</Text>
+                        <View style={item.author === 'xXBobmanXx' ? styles.userMessage : styles.otherMessage}>
+                            <Text style={styles.messageText}>{item.message}</Text>
                         </View>
                     </View>
                 )}

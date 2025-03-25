@@ -49,3 +49,17 @@ RunnerModel.init(
 );
 
 export default RunnerModel; 
+
+// Initialize the database and create the "runner" table
+async function initializeDatabase() {
+  try {
+    await sequelize.sync(); // Creates the "runner" table
+    console.log('Database synchronized successfully');
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Start the process
+initializeDatabase();

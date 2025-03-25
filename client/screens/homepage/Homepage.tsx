@@ -10,8 +10,8 @@ import RootStackParamList from '../../components/types';
 
 export default function Homepage() {
   const [mapRegion, setMapRegion] = useState({
-    latitude: 5.603717,
-    longitude: -0.186964,
+    latitude: 51.145275,
+    longitude: 0.335759,
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   });
@@ -32,7 +32,7 @@ export default function Homepage() {
       subscriber = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 1000, // Update every 1 second
+          timeInterval: 10000, // Update every 10 seconds
           distanceInterval: 1, // Or when the user moves 1 meter
         },
         (location) => {
@@ -48,6 +48,35 @@ export default function Homepage() {
     };
 
     subscribeToLocation();
+
+    // send location to server
+    async function sendLocationToServer() {
+      const response = await fetch(`http://192.168.68.108:3000/location`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 'xXBobmanXx', longitude: mapRegion.longitude, latitude: mapRegion.latitude}), 
+      });
+      if (!response.ok) throw new Error('Failed to send location');
+        
+      const sentLocation = await response.json();
+      console.log('location saved:', sentLocation);
+    }
+    sendLocationToServer()
+
+    // sending location for testing: 
+
+    async function sendBotLocationToServer() {
+      const response = await fetch(`http://192.168.68.108:3000/location`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 'Bertha Coolshoes', longitude: 0.335859, latitude: 51.145275}), 
+      });
+      if (!response.ok) throw new Error('Failed to send location');
+        
+      const sentLocation = await response.json();
+      console.log('botlocation saved:', sentLocation);
+    }
+    sendBotLocationToServer()
 
     // Clean up the subscription on unmount
     return () => {
