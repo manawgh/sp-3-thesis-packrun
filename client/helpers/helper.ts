@@ -25,7 +25,7 @@ async function getNearestChatroom () {
   }
 }
 
-async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection> */ {
+async function trackCurrentRun (): Promise<GeoJSON.FeatureCollection> {
   const runLocation: Partial<CustomLocationObject> = await getLocation();
   runLocation.username = "Bob";
   runLocation.userId = 'cdwks_vera25';
@@ -34,18 +34,11 @@ async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection> */ {
           method: "post", body: JSON.stringify(runLocation),
           headers: { "Content-type": "application/json" }
       });
-      console.log('EVERY 10 SECONDS', response);
+    console.log('EVERY 10 SECONDS', response);
   }
   catch (error: any) {
       console.error(error.message);
   }
 }
 
-
 export default { getLocation, getNearestChatroom, trackCurrentRun };
-
-// flag triggered by button to check how often we send data and where to
-// get the converted gps data from the server
-
-//DISPLAY RUN: 
-//use maplibre + gps data to display run

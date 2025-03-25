@@ -6,7 +6,7 @@ import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import helpers from '../../helpers/helper';
 
 // maplibre
-import { MapView, Camera, MarkerView } from '@maplibre/maplibre-react-native';
+import { MapView, Camera, MarkerView, ShapeSource, LineLayer, LineLayerStyle } from '@maplibre/maplibre-react-native';
 
 // styling
 import global from '../../global'
@@ -22,7 +22,7 @@ export default function Homepage() {
     const [longIntervalID, setLID] = useState<NodeJS.Timeout>(0);
     const [shortIntervalID, setSID] = useState<NodeJS.Timeout>(0);
     const [markerHack, setMarkerHack] = useState(false);
-    // const [route, setRoute] = useState();
+    const [route, setRoute] = useState<GeoJSON.FeatureCollection>();
 
     useEffect(() => {
         helpers.getLocation()
@@ -30,7 +30,7 @@ export default function Homepage() {
         sparseTracking();
     }, []);
 
-    //
+    // hack: makes sure the marker appears on initial load
     useEffect(() => {
         setTimeout( () => {
             setMarkerHack(true);
@@ -47,10 +47,13 @@ export default function Homepage() {
         setRunning(!running);
         clearInterval(longIntervalID);
         setSID(setInterval( () => {
-            const route = helpers.trackCurrentRun();
-
-        }, 10000 ))
+            helpers.trackCurrentRun()
+            /* .then( responseFromAPI => { // todo: check if first or last point?
+                setCoords([responseFromAPI.features[0].properties.waypoints[0].location[0], responseFromAPI.features[0].properties.waypoints[0].location[1]]);
+                setRoute(responseFromAPI); */
+            }, 10000))
     }
+    
 
     return (
         <SafeAreaView>
@@ -67,10 +70,14 @@ export default function Homepage() {
                             <AntDesign name="enviroment" size={48} color="black" />
                         </MarkerView>
 
-                        {/* { route &&
-                        <ShapeSource shape={route}/>
-                        
-                        } */}
+                        { route
+                        ?
+                        <ShapeSource id={'route'} shape={route}>
+                                <LineLayer id='route-style' style={lineStyle}/>
+                        </ShapeSource>
+                        :
+                        <View></View>
+                        }
 
                         { running
                         ?
@@ -94,3 +101,8 @@ export default function Homepage() {
         </SafeAreaView>
     );
 }
+
+const lineStyle: LineLayerStyle = {
+    lineColor: 'blue',
+    lineWidth: 5
+  };
