@@ -40,6 +40,7 @@ export default function Homepage() {
     function sparseTracking () {
         setRunning(!running);
         clearInterval(shortIntervalID);
+        
         setLID(setInterval( () => helpers.getNearestChatroom(), 300000 ));
     }
     
