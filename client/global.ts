@@ -21,17 +21,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
         fontFamily: 'Roboto',
-    },
-    stopbtn: {
-        height: 100,
-        width: 100,
-        color: 'red',
-    },
-    stopbtntext: {
-        fontSize: 15,
-        color: 'white',
-        fontWeight: 'bold',
-        fontFamily: 'Roboto',
     }
 });
 

@@ -1,14 +1,15 @@
+// react native
 import { Text, View } from 'react-native';
-import styles from './styles';
+
+// styling
+import global from '../../global';
 
 export default function RunHistory() {
     return (
-        <>
-        <View style={styles.container}>
-            <View style={styles.topdash}>
-                <Text style={styles.dashtext}>Your runs.</Text>
-            </View>
+        <View style={global.container}>
+            {/* <View style={global.topdash}>
+                <Text style={global.dashtext}>Runs</Text>
+            </View> */}
         </View>
-        </>
     );
 }
