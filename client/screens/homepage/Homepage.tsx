@@ -51,7 +51,7 @@ export default function Homepage() {
 
     // send location to server
     async function sendLocationToServer() {
-      const response = await fetch(`http://192.168.68.108:3000/location`, {
+      const response = await fetch(`http://192.168.68.100:3000/location`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: 'xXBobmanXx', longitude: mapRegion.longitude, latitude: mapRegion.latitude}), 
@@ -66,7 +66,7 @@ export default function Homepage() {
     // sending location for testing: 
 
     async function sendBotLocationToServer() {
-      const response = await fetch(`http://192.168.68.108:3000/location`, {
+      const response = await fetch(`http://192.168.68.100:3000/location`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: 'Bertha Coolshoes', longitude: 0.335859, latitude: 51.145275}), 
