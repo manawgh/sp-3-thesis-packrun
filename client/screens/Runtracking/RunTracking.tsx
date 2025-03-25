@@ -1,6 +1,7 @@
 // CurrentRun.tsx
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+// import styles from './styles';
 import styles from './styles';
 import { useRun } from '../../context/RunContext';
 
@@ -19,9 +20,9 @@ export default function CurrentRun() {
             <Text style={styles.dashtext}>Run.</Text>
         </View>
         <View>
-            <Text style={styles.screentext}>Time: {formatTime(elapsedTime)}</Text>
-            <Text style={styles.screentext}>Pace: TODO</Text>
-            <Text style={styles.screentext}>Distance: TODO</Text>
+            <Text style={styles.dashtext}>Time: {formatTime(elapsedTime)}</Text>
+            <Text style={styles.dashtext}>Pace: TODO</Text>
+            <Text style={styles.dashtext}>Distance: TODO</Text>
         </View>
         {stillRunning ? (
             <TouchableOpacity style={styles.stopbtn} onPress={stopRun}>
