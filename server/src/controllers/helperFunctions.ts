@@ -13,7 +13,6 @@ export async function assignToChatRoom(runner: Runner): Promise<any | undefined>
 
   const nearestChatRoom = await ChatRoomModel.findOne({ where: { chatRoomId } });
 
-  console.log('nearest', nearestChatRoom);
   if (nearestChatRoom) {
 
     const runnerDbObj = await RunnerModel.findOne({ where: { userId: runner.userId } });
@@ -67,7 +66,7 @@ export async function removeRunnerFromChatRoom(runnerId: string, chatRoomId: str
     const chatRoom = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (chatRoom) {
       if (chatRoom.usersId.length > 1) {
-        
+
         await ChatRoomModel
           .update({ usersId: chatRoom.dataValues.usersId.filter(userId => userId != runnerId) },
             { where: { chatRoomId } })

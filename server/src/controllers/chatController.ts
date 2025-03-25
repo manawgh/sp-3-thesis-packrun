@@ -3,7 +3,9 @@ import ChatRoomModel from "../models/chatRoomModel";
 import Runner from "../models/runnerModel";
 import { assignToChatRoom, getAssignedChatRoom } from "./helperFunctions";
 
+
 export async function getAllMessages(req: Request, res: Response) {
+
   const chatRoomId = await getAssignedChatRoom(req.params.userId);
   if (chatRoomId) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
@@ -20,8 +22,8 @@ export async function getAllMessages(req: Request, res: Response) {
 
 
 export async function postMessage(req: Request, res: Response) {
-  const chatRoomId = await getAssignedChatRoom(req.params.userId);
 
+  const chatRoomId = await getAssignedChatRoom(req.params.userId);
   if (chatRoomId && req.body) {
     const room = await ChatRoomModel.findOne({ where: { chatRoomId } });
     if (room && room.messages) {
@@ -32,6 +34,7 @@ export async function postMessage(req: Request, res: Response) {
     }
   }
 };
+
 export async function assignChatRoom(req: Request, res: Response) {
   const runner: Runner = req.body;
   const response = await assignToChatRoom(runner);

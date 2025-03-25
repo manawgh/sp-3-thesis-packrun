@@ -61,4 +61,4 @@ async function logoutUser(runner: Runner) {
   }
 }
 
-setInterval(checkExpiringSessions, 1000 * 60 * LOGIN_EXPIRES_MINUTES);
+setInterval(checkExpiringSessions, 1000 * 60 * LOGIN_EXPIRES_MINUTES / 2);
