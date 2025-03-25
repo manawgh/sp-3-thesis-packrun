@@ -18,7 +18,7 @@ async function getNearestChatroom () {
       method: "post", body: JSON.stringify(currenChatLocation),
       headers: { "Content-type": "application/json" }
     });
-    console.log('EVERY 30 MINUTES', response);
+    console.log('EVERY 5 MINUTES', response);
   }
   catch (error: any) {
     console.error(error.message);
