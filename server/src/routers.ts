@@ -1,28 +1,36 @@
 import express, { Router } from 'express';
-import { setLocation, getNearbyRunners, getAllRunners } from './controllers/controller'
+
+import { logUser } from './controllers/loginController';
+import { getAllMessages, assignChatRoom, postMessage } from './controllers/chatController';
+import { createNewTrack, getTracks, postTrack } from './controllers/tracksController';
+
+
+
+
 const router: Router = express.Router();
 
-// Defining routes for the User: 
 
-router.post('/location', setLocation);
-
-router.get('/nearby/:id/:distance', getNearbyRunners);
-
-router.get('/runner', getAllRunners);
+router.post('/location', logUser, assignChatRoom);
 
 
-// (GET): get all messages from the database
-// (POST): add a message to the chat
-// (PUT): edit a message
 
-// RUNNING ROUTES
-// (POST): add a new run to the database 
-// (DELETE): remove run from the database 
-// (PUT): edit an already existing run   
+//start tracking
+router.put('/tracks/:userId', createNewTrack);
 
-// PROFILE:
-// (GET): show all data stored under user id
-// (PUT): edit profile 
-// (GET): show all stored routes (runs) from the user
+
+router.post('/tracks/:userId/:trackId', postTrack);
+
+
+
+
+router.get('/tracks/:userId:/', getTracks);
+
+
+
+
+
+router.get('/messages/:userId', getAllMessages);
+router.post('/message/:userId', postMessage); // expected body: {author: string, message: string, time: stringDate}
+
 
 export default router;

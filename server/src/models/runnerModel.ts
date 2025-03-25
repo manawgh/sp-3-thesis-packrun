@@ -1,22 +1,26 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, DateDataType } from "sequelize";
 import sequelize from "./model";
 
-export interface RunnerAttributes {
+export interface Runner {
   id?: bigint,
   userId: string,
   latitude: number,
-  longitude: number, //how will the location look like from frontend? 
+  longitude: number,
+  assignedChatRoom?: string,
+  updatedAt?: Date;
 }
 
-class Runner extends Model<RunnerAttributes> implements RunnerAttributes {
+class RunnerModel extends Model<Runner> implements Runner {
   public id!: bigint;
   userId!: string;
   public latitude!: number;
   public longitude!: number;
+  assignedChatRoom!: string;
+  updatedAt!: Date;
 }
 
 // initializing a new table with sequelize
-Runner.init(
+RunnerModel.init(
   {
     id: {
       type: DataTypes.BIGINT,
@@ -34,6 +38,10 @@ Runner.init(
     userId: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    assignedChatRoom: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   },
   {
@@ -42,4 +50,18 @@ Runner.init(
   }
 );
 
-export default Runner; 
+export default RunnerModel; 
+
+// Initialize the database and create the "runner" table
+async function initializeDatabase() {
+  try {
+    await sequelize.sync(); // Creates the "runner" table
+    console.log('Database synchronized successfully');
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Start the process
+initializeDatabase();

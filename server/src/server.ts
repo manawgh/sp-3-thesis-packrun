@@ -34,12 +34,13 @@ io.on('connection', (socket) => {
     console.log('socket stuff gone???');
   });
 });
-server.listen(port, () => console.log(`Server running at port ${port}!`))
-/* (async () => {
+// server.listen(port, () => console.log(`Server running at port ${port}!`));
+
+(async () => {
   try {
     await sequelize.sync();
-    app.listen(port, () => console.log(`Server running at port ${port}!`))
+    server.listen(port, () => console.log(`Server running at port ${port}!`))
   } catch (error) {
     console.log(error);
   }
-})(); */
+})();
