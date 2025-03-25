@@ -2,6 +2,9 @@ import express, { Router } from 'express';
 
 import { logUser } from './controllers/loginController';
 import { getAllMessages, assignChatRoom, postMessage } from './controllers/chatController';
+import { createNewTrack, getTracks, postTrack } from './controllers/tracksController';
+
+
 
 
 const router: Router = express.Router();
@@ -9,14 +12,25 @@ const router: Router = express.Router();
 
 router.post('/location', logUser, assignChatRoom);
 
-//todo add tracks
-// router.post('/tracks/:userId')
-//https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7
-router.get('/messages/:userId', getAllMessages);
 
-// expected body: {author: string, message: string, time: stringDate}
-router.post('/message/:userId', postMessage);
+
+//start tracking
+router.put('/tracks/:userId', createNewTrack);
+
+
+router.post('/tracks/:userId/:trackId', postTrack);
+
+
+
+
+router.get('/tracks/:userId:/', getTracks);
+
+
+
+
+
+router.get('/messages/:userId', getAllMessages);
+router.post('/message/:userId', postMessage); // expected body: {author: string, message: string, time: stringDate}
 
 
 export default router;
-

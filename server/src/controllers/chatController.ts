@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import ChatRoomModel from "../models/chatRoomModel";
 import Runner from "../models/runnerModel";
-import { assignToChatRoom, getAssignedChatRoom } from "./helperFunctions";
+import { assignToChatRoom, getAssignedChatRoom } from "../helpers/chatFunctions";
 
 
 export async function getAllMessages(req: Request, res: Response) {
