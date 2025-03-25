@@ -30,7 +30,6 @@ export default function Homepage() {
         sparseTracking();
     }, []);
 
-    //
     useEffect(() => {
         setTimeout( () => {
             setMarkerHack(true);
