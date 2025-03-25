@@ -18,23 +18,27 @@ export default function Homepage() {
     const apiKey = 'aeeb6ec8-5770-404c-8f6d-271cad7b3798';
     const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${apiKey}`;
     const [coords, setCoords] = useState<number[]>([]);
-    const [running, setRunning] = useState(false);
+    const [running, setRunning] = useState(true);
+    const [longIntervalID, setLID] = useState<NodeJS.Timeout>(0);
+    const [shortIntervalID, setSID] = useState<NodeJS.Timeout>(0);
 
     useEffect(() => {
         helpers.getLocation()
         .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
-        .then(() => console.log(coords)); // todo: get rid of later
-        track();
-    }, [running]);
+        sparseTracking();
+    }, []);
 
-    function track () {
-        console.log(running);
-        const longIntervalID = setInterval( () => helpers.getNearestChatroom(running, shortIntervalID), 3000 )
-        const shortIntervalID = setInterval( () => helpers.trackCurrentRun(running, longIntervalID), 10000 )
-        console.log(longIntervalID);
-        console.log(shortIntervalID);
+    function sparseTracking () {
+        setRunning(!running);
+        clearInterval(shortIntervalID);
+        setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ))
     }
-
+    
+    function denseTracking () {
+        setRunning(!running);
+        clearInterval(longIntervalID);
+        setSID(setInterval( () => helpers.trackCurrentRun(), 10000 ))
+    }
 
     return (
         <SafeAreaView>
@@ -53,13 +57,13 @@ export default function Homepage() {
 
                             { running
                             ?
-                            <TouchableOpacity style={styles.stopbtn} onPress={()=>setRunning(!running)}>
+                            <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
                                 <View style={{ transform: [{ rotate: '-45deg' }] }}>
                                     <Text style={styles.btntext}>Stop</Text>
                                 </View>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={styles.startbtn} onPress={()=>setRunning(!running)}>
+                            <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
                             <View style={{ transform: [{ rotate: '-45deg' }] }}>
                                 <Text style={styles.btntext}>Start</Text>
                             </View>

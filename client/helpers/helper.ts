@@ -9,43 +9,35 @@ async function getLocation (): Promise<Location.LocationObject> {
   return locationObject;
 }
 
-async function getNearestChatroom (tracking: boolean, intervalID: NodeJS.Timeout) {
-  if (!tracking) {
-    console.log(intervalID);
-    clearInterval(intervalID);
-    const currenChatLocation: Partial<CustomLocationObject> = await getLocation();
-    currenChatLocation.username = "Bob";
-    currenChatLocation.userId = 'cdwks_vera25';
-    try {
-      const response = await fetch(url + ':3000/location', {
-        method: "post", body: JSON.stringify(currenChatLocation),
-        headers: { "Content-type": "application/json" }
-      });
-      console.log('EVERY 30 MINUTES', response);
-    }
-    catch (error: any) {
-      console.error(error.message);
-    }
+async function getNearestChatroom () {
+  const currenChatLocation: Partial<CustomLocationObject> = await getLocation();
+  currenChatLocation.username = "Bob";
+  currenChatLocation.userId = 'cdwks_vera25';
+  try {
+    const response = await fetch(url + ':3000/location', {
+      method: "post", body: JSON.stringify(currenChatLocation),
+      headers: { "Content-type": "application/json" }
+    });
+    console.log('EVERY 30 MINUTES', response);
+  }
+  catch (error: any) {
+    console.error(error.message);
   }
 }
 
-async function trackCurrentRun(tracking: boolean, intervalID: NodeJS.Timeout) {
-  if (tracking) {
-    console.log(intervalID);
-    clearInterval(intervalID);
-    const runLocation: Partial<CustomLocationObject> = await getLocation();
-    runLocation.username = "Bob";
-    runLocation.userId = 'cdwks_vera25';
-    try {
-        const response = await fetch(url + ':3000/tracks', {
-            method: "post", body: JSON.stringify(runLocation),
-            headers: { "Content-type": "application/json" }
-        });
-        console.log('EVERY 10 SECONDS', response);
-    }
-    catch (error: any) {
-        console.error(error.message);
-    }
+async function trackCurrentRun () {
+  const runLocation: Partial<CustomLocationObject> = await getLocation();
+  runLocation.username = "Bob";
+  runLocation.userId = 'cdwks_vera25';
+  try {
+      const response = await fetch(url + ':3000/tracks', {
+          method: "post", body: JSON.stringify(runLocation),
+          headers: { "Content-type": "application/json" }
+      });
+      console.log('EVERY 10 SECONDS', response);
+  }
+  catch (error: any) {
+      console.error(error.message);
   }
 }
 
