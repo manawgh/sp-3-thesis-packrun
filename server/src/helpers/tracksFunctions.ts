@@ -1,22 +1,30 @@
+import { where } from "sequelize";
 import TrackModel from "../models/trackModel";
 import { Location } from "../types";
 
 export async function addToTracking(owner: string, trackId: string, location: Location) {
+
   const trackObject = await TrackModel.findOne({ where: { id: trackId, owner } });
+
   if (trackObject) {
     trackObject.location = [...trackObject.location, location];
-    console.log('locatioooon', trackObject.location);
     await trackObject.save();
-    if (trackObject.location.length > 1) {
-      const formattedToGeo = await formatToGeoApify(trackObject.location);
-      console.log('listo para enviar', JSON.stringify(formattedToGeo));
-      const convertToGeo = await convertToGeoApify(formattedToGeo);
-      console.log('CONVERSEEEE', convertToGeo);
-      return convertToGeo;
-    } else return 'not enought waypoints';
+
+    const result = await transformToGeoApify(trackObject.location);
+    return result;
+
   }
 }
+async function transformToGeoApify(locations: Location[]) {
+  if (locations.length > 1) {
 
+    const formattedToGeo = await formatToGeoApify(locations);
+    const convertToGeo = await convertToGeoApify(formattedToGeo);
+
+    return convertToGeo;
+
+  } else return 'not enought waypoints';
+}
 async function convertToGeoApify(request: any) {
   const URL = 'https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7';
   const response = await fetch(URL, {
@@ -41,5 +49,25 @@ export async function createTrack(owner: string) {
   const newTrack = { owner, location: [], converted: {} };
   const isTrackCreated = await TrackModel.create(newTrack);
   return { trackId: isTrackCreated.id };
+}
+
+export async function getTrackFromDb(owner: string, id: string) {
+  const selectedTrack = await TrackModel.findOne({ where: { owner, id } });
+  if (selectedTrack) {
+    const result = await transformToGeoApify(selectedTrack.location);
+    return result;
+  }
+}
+
+export async function deleteTrackFromDb(owner: string, id: string) {
+  const isTrackDeleted = await TrackModel.destroy({ where: { owner, id } });
+  return isTrackDeleted;
+}
+
+export async function getTracksInfoFromDb(owner: string) {
+  const tracks = await TrackModel.findAll({ where: { owner } });
+  if (tracks) {
+   
+  }
 
 }
