@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import { CustomLocationObject } from './Types';
 
-const url = "http://192.168.1.192";
+const url = "http://192.168.68.100";
 
 async function getLocation (): Promise<Location.LocationObject> {
   await Location.requestForegroundPermissionsAsync();
