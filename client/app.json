@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.manawex.PackRun",
+      "bundleIdentifier": "com.vrch1e.PackRun",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSLocationWhenInUseUsageDescription": "We use your location to provide better services."
@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c1c2ed8e-eea6-4914-9bb9-4c1998d10c28"
+        "projectId": "ae64aaeb-da9b-4e10-9b6f-777d93e21b12"
       }
     },
     "plugins": [

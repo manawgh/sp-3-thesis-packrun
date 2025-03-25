@@ -11,8 +11,8 @@ async function getLocation (): Promise<Location.LocationObject> {
 
 async function getNearestChatroom () {
   const currenChatLocation: Partial<CustomLocationObject> = await getLocation();
-  currenChatLocation.username = "Bob";
-  currenChatLocation.userId = 'cdwks_vera25';
+  currenChatLocation.username = "xXBobmanXx";
+  currenChatLocation.userId = 'xXBobmanXx';
   try {
     const response = await fetch(url + ':3000/location', {
       method: "post", body: JSON.stringify(currenChatLocation),
