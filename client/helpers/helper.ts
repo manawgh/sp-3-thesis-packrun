@@ -25,7 +25,7 @@ async function getNearestChatroom () {
   }
 }
 
-async function trackCurrentRun () {
+async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection> */ {
   const runLocation: Partial<CustomLocationObject> = await getLocation();
   runLocation.username = "Bob";
   runLocation.userId = 'cdwks_vera25';

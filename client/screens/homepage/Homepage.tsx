@@ -21,6 +21,8 @@ export default function Homepage() {
     const [running, setRunning] = useState(true);
     const [longIntervalID, setLID] = useState<NodeJS.Timeout>(0);
     const [shortIntervalID, setSID] = useState<NodeJS.Timeout>(0);
+    const [markerHack, setMarkerHack] = useState(false);
+    // const [route, setRoute] = useState();
 
     useEffect(() => {
         helpers.getLocation()
@@ -28,16 +30,26 @@ export default function Homepage() {
         sparseTracking();
     }, []);
 
+    //
+    useEffect(() => {
+        setTimeout( () => {
+            setMarkerHack(true);
+        }, 100);
+    }, [coords.length]);
+
     function sparseTracking () {
         setRunning(!running);
         clearInterval(shortIntervalID);
-        setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ))
+        setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
     }
     
     function denseTracking () {
         setRunning(!running);
         clearInterval(longIntervalID);
-        setSID(setInterval( () => helpers.trackCurrentRun(), 10000 ))
+        setSID(setInterval( () => {
+            const route = helpers.trackCurrentRun();
+
+        }, 10000 ))
     }
 
     return (
@@ -46,32 +58,37 @@ export default function Homepage() {
                 <View style={styles.mapcontainer}>
                     
                     { coords.length
+                    ?
+                    <MapView style={styles.mapview} mapStyle={styleURL} zoomEnabled={true} rotateEnabled={false}>
+                        
+                        <Camera zoomLevel={14} centerCoordinate={coords} />
+
+                        <MarkerView coordinate={coords}>
+                            <AntDesign name="enviroment" size={48} color="black" />
+                        </MarkerView>
+
+                        {/* { route &&
+                        <ShapeSource shape={route}/>
+                        
+                        } */}
+
+                        { running
                         ?
-                        <MapView style={styles.mapview} mapStyle={styleURL} zoomEnabled={true} rotateEnabled={false}>
-                            
-                            <Camera zoomLevel={14} centerCoordinate={coords} />
-
-                            <MarkerView coordinate={coords}>
-                                <AntDesign name="enviroment" size={48} color="black" />
-                            </MarkerView>
-
-                            { running
-                            ?
-                            <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
-                                <View style={{ transform: [{ rotate: '-45deg' }] }}>
-                                    <Text style={styles.btntext}>Stop</Text>
-                                </View>
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
+                        <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
                             <View style={{ transform: [{ rotate: '-45deg' }] }}>
-                                <Text style={styles.btntext}>Start</Text>
+                                <Text style={styles.btntext}>Stop</Text>
                             </View>
-                            </TouchableOpacity>
-                            }
-                        </MapView>
+                        </TouchableOpacity>
                         :
-                        <View></View>}       
+                        <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
+                        <View style={{ transform: [{ rotate: '-45deg' }] }}>
+                            <Text style={styles.btntext}>Start</Text>
+                        </View>
+                        </TouchableOpacity>
+                        }
+                    </MapView>
+                    :
+                    <View></View>}       
                 </View>
             </View>
         </SafeAreaView>

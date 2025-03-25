@@ -33,7 +33,7 @@ export default StyleSheet.create({
   },
   sendButton: {
     marginLeft: 10,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#3B98FF',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
