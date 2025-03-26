@@ -3,11 +3,7 @@ import RunnerModel, { Runner } from "../models/runnerModel";
 import { removeRunnerFromChatRoom } from "../helpers/chatFunctions";
 
 //minutes of inactivity to autologout users
-<<<<<<< HEAD
-const LOGIN_EXPIRES_MINUTES = 5;
-=======
 const LOGIN_EXPIRES_MINUTES = 1;
->>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
 
 export async function logUser(req: Request, res: Response, next: Function) {
 

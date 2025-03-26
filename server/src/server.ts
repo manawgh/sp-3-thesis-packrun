@@ -32,9 +32,9 @@ io.on('connection', (socket) => {
   });
 
   // socket preperation for run tracking geoJSON
-  socket.on('trackrun', (lightGeoJSON) => {
-    console.log(lightGeoJSON)
-    io.emit('trackrun', lightGeoJSON)
+  socket.on('trackrun', (GeoJSON) => {
+    console.log(GeoJSON)
+    io.emit('trackrun', GeoJSON)
   })
 
   // socket preperation for sending light geoJSON to run history upon stopping run tracking
