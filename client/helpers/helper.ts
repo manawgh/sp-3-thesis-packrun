@@ -45,15 +45,29 @@ async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection | undefi
 
       console.log('EVERY 10 SECONDS', response);
       
-    /* if (response.ok) {  
+    if (response.ok) {  
       const geoObject: GeoJSON.FeatureCollection = await response.json()
       console.log('LINE 50', geoObject);
       return geoObject;
-    } */
+    }
   }
   catch (error: any) {
       console.error(error.message);
   }
 }
 
+/* async function saveRunToDB () {
+  currenChatLocation.username = "Bob";
+  currenChatLocation.userId = 'cdwks_vera25';
+  try {
+    const response = await fetch(url + ':3000/location', {
+      method: "post", body: JSON.stringify(currenChatLocation),
+      headers: { "Content-type": "application/json" }
+    });
+  }
+  catch (error: any) {
+    console.error(error.message);
+  }
+}
+ */
 export default { getLocation, getNearestChatroom, trackCurrentRun };

@@ -6,12 +6,14 @@ import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import helpers from '../../helpers/helper';
 
 // maplibre
-import { MapView, Camera, MarkerView, ShapeSource, LineLayer, LineLayerStyle } from '@maplibre/maplibre-react-native';
+import { MapView, Camera, MarkerView, ShapeSource, LineLayer, LineLayerStyle, Images } from '@maplibre/maplibre-react-native';
 
 // styling
 import global from '../../global'
 import styles from './styles';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+
 
 // TESTING THE REAL-TIME MAP RENDERING (PART 1)
 
@@ -26,7 +28,6 @@ function* getNextObject () {
         ]}
     for (let i=1; i <= obj.waypoints.length-1; i++) {
         progress.waypoints.push(obj.waypoints[i]);
-        console.log(progress);
         yield progress;
     }
 }
@@ -44,6 +45,7 @@ export default function HomePage() {
     const [markerHack, setMarkerHack] = useState(false);
     const [route, setRoute] = useState<GeoJSON.FeatureCollection>();
 
+    const shoe = require('../../assets/running-shoe.png')
 
     useEffect(() => {
         // timeout();
@@ -60,46 +62,46 @@ export default function HomePage() {
     }, [coords.length]);
 
     function sparseTracking () {
+        // helpers.saveRun();
         setRunning(!running);
         clearInterval(shortIntervalID);
-        
         setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
     }
     
     function denseTracking () {
         setRunning(!running);
         clearInterval(longIntervalID);
-        console.log('hello');
-        setSID(setInterval( () => helpers.trackCurrentRun(), 10000))
-        /* setSID(setInterval( () => {
-            helpers.trackCurrentRun(), 10000})) */
-            /* .then( (responseFromAPI: GeoJSON.FeatureCollection | undefined) => { // todo: check if first or last point?
-                if (responseFromAPI) {
-                    setCoords([responseFromAPI.features[0].properties!.waypoints[0].location[0], responseFromAPI.features[0].properties!.waypoints[0].location[1]]);
-                    setRoute(responseFromAPI);
-                }
-            }) */
+        setSID(setInterval( () => helpers.trackCurrentRun()
+        .then( (responseFromAPI: GeoJSON.FeatureCollection | undefined) => { // todo: check if first or last point?
+            if (responseFromAPI) {
+                setCoords([responseFromAPI.features[0].properties!.waypoints[0].location[0], responseFromAPI.features[0].properties!.waypoints[0].location[1]]);
+                setRoute(responseFromAPI);
+            }
+        }), 7000))
+        
     }
+
 
     // TESTING THE REAL-TIME MAP RENDERING (PART 2)
 
     /* async function timeout () {
-        console.log('INVOKING TIMEOUT');
-        const { done, value: waypoints } = waypointsGenerator.next();
+
+        const { done, value: latestWaypoints } = waypointsGenerator.next();
             if (done) return;
             try {
                 const response = await fetch('https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7', {
                     method: 'POST',
                     headers: { "Content-type": "application/json" },
-                    body: JSON.stringify(waypoints)
-                })
-                const veroute = await response.json();
-                console.log(veroute);
-                setRoute(veroute);
-                setTimeout(timeout, 100);
-            }
-            catch (error) { console.log(error)}
-        } */
+                    body: JSON.stringify(latestWaypoints)
+            })
+            const latestCoords = latestWaypoints.waypoints[latestWaypoints.waypoints.length-1].location;
+            setCoords(latestCoords);
+            const veroute = await response.json();
+            setRoute(veroute);
+            setTimeout(timeout, 100);
+        }
+        catch (error) {console.log(error)}
+    } */
 
 
     return (
@@ -112,10 +114,17 @@ export default function HomePage() {
                     <MapView style={styles.mapview} mapStyle={styleURL} zoomEnabled={true} rotateEnabled={false}>
                         
                         <Camera zoomLevel={16} centerCoordinate={coords} />
-
+                        
+                        { running
+                        ?
+                        <MarkerView coordinate={coords}>
+                            <FontAwesome5 name="running" size={30} color="black" />
+                        </MarkerView>
+                        :
                         <MarkerView coordinate={coords}>
                             <AntDesign name="enviroment" size={48} color="black" />
-                        </MarkerView>
+                        </MarkerView>                        
+                        }
 
                         { route
                         ?
