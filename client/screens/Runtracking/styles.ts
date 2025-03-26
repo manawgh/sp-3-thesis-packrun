@@ -5,21 +5,14 @@ const styles = StyleSheet.create({
       flex: 1,
       width: '100%',
       height: 1,
-      position: 'relative'
+      position: 'relative',
+      backgroundColor: '#222222'
     },
-    topdash: {
-        width: '100%',
-        height: 50,
-        backgroundColor: '#f8f8f8',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: 10
-    },
-    dashtext: {
+    screentext: {
         marginTop: 7,
-        fontSize: 20,
+        fontSize: 55,
         fontWeight: 'bold',
-        color: '#333',
+        color: 'white',
         fontFamily: 'Roboto',
     },
     stopbtn: {

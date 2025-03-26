@@ -1,17 +1,42 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  messageBubble: {
+  userMessage: {
     backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5,
+    alignSelf: 'flex-end',
+    maxWidth: '80%',
+    marginRight: 4
+  },
+  botMessage: {
+    backgroundColor: 'orange',
     padding: 10,
     borderRadius: 10,
     marginVertical: 5,
     alignSelf: 'flex-start',
     maxWidth: '80%',
+    marginLeft: 4
   },
   messageText: {
     color: '#fff',
     fontSize: 16,
+  },
+  botText: {
+    color: 'black',
+    // fontWeight: 'bold',
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    marginLeft: 6
+  },
+  userText: {
+    color: 'black',
+    // fontWeight: 'bold',
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    alignSelf: 'flex-end',
+    marginRight: 6
   },
   inputContainer: {
     flexDirection: 'row',
@@ -20,8 +45,8 @@ export default StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#fff',
-    position: 'absolute',
-    bottom: -34
+    position: 'relative',
+
   },
   input: {
     flex: 1,
@@ -45,8 +70,9 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    height: 1,
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: '#ffp'
+    
   },
   topdash: {
       width: '100%',

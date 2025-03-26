@@ -30,6 +30,20 @@ io.on('connection', (socket) => {
     console.log(msg);
     io.emit('message', msg);
   });
+
+  // socket preperation for run tracking geoJSON
+  socket.on('trackrun', (lightGeoJSON) => {
+    console.log(lightGeoJSON)
+    io.emit('trackrun', lightGeoJSON)
+  })
+
+  // socket preperation for sending light geoJSON to run history upon stopping run tracking
+  socket.on('stoprun', (lightGeoJSON) => {
+    console.log(lightGeoJSON)
+    io.emit('stoprun', lightGeoJSON)
+  })
+
+
   socket.on('disconnect', () => {
     console.log('socket stuff gone???');
   });

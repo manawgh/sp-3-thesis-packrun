@@ -7,28 +7,32 @@ async function getLocation (): Promise<Location.LocationObject> {
   await Location.requestForegroundPermissionsAsync();
   const locationObject = await Location.getCurrentPositionAsync()
   return locationObject;
-}
+};
 
 async function getNearestChatroom () {
-  const currenChatLocation: Partial<CustomLocationObject> = await getLocation();
-  currenChatLocation.username = "xXBobmanXx";
-  currenChatLocation.userId = 'xXBobmanXx';
+  const currentChatLocation: Partial<CustomLocationObject> = await getLocation();
+  const userId = 'xXBobmanXx';
+  const locationObj = {
+    userId: userId, 
+    longitude: currentChatLocation.coords?.longitude ?? 0, 
+    latitude: currentChatLocation.coords?.latitude ?? 0,
+  }
   try {
     const response = await fetch(url + ':3000/location', {
-      method: "post", body: JSON.stringify(currenChatLocation),
+      method: "post", body: JSON.stringify(locationObj),
       headers: { "Content-type": "application/json" }
     });
-    console.log('EVERY 5 MINUTES', response);
+    if (!response.ok) throw new Error('Failed to send location');
+    console.log('location update: ', locationObj);
   }
   catch (error: any) {
     console.error(error.message);
-  }
-}
+  };
+};
 
 async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection> */ {
   const runLocation: Partial<CustomLocationObject> = await getLocation();
-  runLocation.username = "Bob";
-  runLocation.userId = 'cdwks_vera25';
+  runLocation.userId = 'xXBobmanXx';
   try {
       const response = await fetch(url + ':3000/tracks', {
           method: "post", body: JSON.stringify(runLocation),
@@ -38,8 +42,8 @@ async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection> */ {
   }
   catch (error: any) {
       console.error(error.message);
-  }
-}
+  };
+};
 
 
 export default { getLocation, getNearestChatroom, trackCurrentRun };

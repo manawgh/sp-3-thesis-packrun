@@ -25,9 +25,38 @@ export default function Homepage() {
     // const [route, setRoute] = useState();
 
     useEffect(() => {
-        helpers.getLocation()
-        .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
-        sparseTracking();
+        const fetchInitialLocation = async () => {
+            try {
+              const locationObject = await helpers.getLocation();
+              setCoords([locationObject.coords.longitude, locationObject.coords.latitude]);
+            } catch (error) {
+              console.error('Failed to fetch initial location:', error);
+            }
+          };
+      
+          fetchInitialLocation();
+          sparseTracking();
+    }, []);
+
+    useEffect(() => {
+            // send location to server
+        helpers.getNearestChatroom()
+  
+      // sending a bot location for testing chat rooms: 
+  
+      async function sendBotLocationToServer() {
+        const response = await fetch(`http://192.168.68.100:3000/location`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: 'Bertha Coolshoes', longitude: 0.335859, latitude: 51.145275}), 
+        });
+        if (!response.ok) throw new Error('Failed to send location');
+          
+        const sentLocation = await response.json();
+        console.log('botlocation saved:', sentLocation);
+      }
+      sendBotLocationToServer()
+
     }, []);
 
     useEffect(() => {
