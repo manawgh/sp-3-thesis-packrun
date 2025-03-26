@@ -17,7 +17,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 // TESTING THE REAL-TIME MAP RENDERING (PART 1)
 
-/* import { sendToAPI } from '../../helpers/data'
+import { sendToAPI } from '../../helpers/data'
 
 function* getNextObject () {
     const obj = sendToAPI;
@@ -32,7 +32,7 @@ function* getNextObject () {
     }
 }
 
-const waypointsGenerator = getNextObject(); */
+const waypointsGenerator = getNextObject();
 
 export default function HomePage() {
 
@@ -47,7 +47,7 @@ export default function HomePage() {
     const shoe = require('../../assets/running-shoe.png')
     
     useEffect(() => {
-        // timeout(); // (FOR TESTING REAL-TIME RENDERING)
+        timeout(); // (UNCOMMENT FOR TESTING REAL-TIME RENDERING)
         helpers.getLocation()
         .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
         sparseTracking();
@@ -85,7 +85,7 @@ export default function HomePage() {
     
     // TESTING THE REAL-TIME MAP RENDERING (PART 2)
 
-    /* async function timeout () {
+    async function timeout () {
 
         const { done, value: latestWaypoints } = waypointsGenerator.next();
             if (done) return;
@@ -102,7 +102,36 @@ export default function HomePage() {
             setTimeout(timeout, 100);
         }
         catch (error) {console.log(error)}
-    } */
+    }
+
+    /* const Blink = props => {
+        const fadeAnim = useAnimatedValue(0);
+        useEffect(() => {
+            Animated.loop(
+            Animated.sequence([
+
+            Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver:true,
+            }),
+
+            Animated.timing(fadeAnim,{
+            toValue:0,
+            duration: 1000,
+            useNativeDriver: true,
+            }),
+        ]),
+        {iterations: Infinity}
+        ).start();
+        },[fadeAnim]);
+
+        return (
+            <Animated.View style={{...props.style, opacity:fadeAnim}}>
+              {props.children}
+            </Animated.View>
+          );
+        }; */
 
  
     return (
@@ -138,11 +167,13 @@ export default function HomePage() {
 
                         { running
                         ?
+                        //<Blink>
                         <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
                             <View style={{ transform: [{ rotate: '-45deg' }] }}>
                                 <Text style={styles.btntext}>Stop</Text>
                             </View>
                         </TouchableOpacity>
+                        //</Blink>
                         :
                         <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
                         <View style={{ transform: [{ rotate: '-45deg' }] }}>
@@ -163,46 +194,3 @@ const lineStyle: LineLayerStyle = {
     lineColor: 'blue',
     lineWidth: 5
   };
-
-
-  /* import { Button, Pressable, Text, View, StyleSheet, Animated, useAnimatedValue } from 'react-native';
-
-  useEffect(() => {
-    helpers.GPS.getLocation(setCoords, setText).then( () => console.log(coords));
-  }, []);
-  const Blink = props => {
-    const fadeAnim = useAnimatedValue(0);
-    useEffect(() => {
-      Animated.loop(
-        Animated.sequence([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver:true,
-      }),
-      Animated.timing(fadeAnim,{
-        toValue:0,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]),
-    {iterations: Infinity}
-  ).start();
-    },[fadeAnim]);
-
-    return (
-      <Animated.View style={{...props.style,
-        opacity:fadeAnim,
-      }}>
-        {props.children}
-      </Animated.View>
-    );
-  };
-
-      <Blink>
-        <Pressable   style={styles.homePage.top} >
-          <Text>
-            Stop
-            </Text>
-          </Pressable>
-      </Blink> */
