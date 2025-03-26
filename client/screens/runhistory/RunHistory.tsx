@@ -1,47 +1,54 @@
 // react native
-import { Text, View } from 'react-native';
-import { LineChart } from "react-native-gifted-charts"
-
-
-// styling
-<<<<<<< HEAD
+import { Text, View, FlatList } from 'react-native';
 import styles from './styles'
+import { useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
+
+const socket = io('http://192.168.68.100:3000', { transports: ['websocket'] });
 
 export default function RunHistory() {
-    return (
-        <View style={styles.container}>
-            {/* <View style={global.topdash}>
-                <Text style={global.dashtext}>Runs</Text>
-            </View> */}
-=======
-import global from '../../global';
-const lineData = [{value: 0},{value: 20},{value: 18},{value: 40},{value: 36},{value: 60},{value: 54},{value: 85}];
+    const [runs, setRuns] = useState<{ time: string; pace: string; distance: string, elevation: string }[]>([]);
+    const flatListRef = useRef<FlatList>(null);
 
-export default function RunHistory() {
+    const getRuns = async () => {
+        // adjust as necessary depending on davids routes
+        const response = await fetch(`http://192.168.68.100:3000/runs/xXBobmanXx`);
+        if (!response.ok) throw new Error('Failed to fetch messages');
+        
+        const resp = await response.json();
+        setRuns(resp);
+    }
+
+    useEffect(() => {
+        socket.on('stoprun', (run: { time: string; pace: string; distance: string, elevation: string }) => {
+            setRuns(prev => [...prev, run]);
+        });
+        getRuns()
+        return () => {
+            socket.off('stoprun');
+        };
+    }, []);
+
     return (
-        <View style={global.container}>
-            <View>
-                <LineChart
-                areaChart
-                hideDataPoints
-                animationDuration={1200}
-                startFillColor="#0BA5A4"
-                startOpacity={1}
-                endOpacity={0.3}
-                initialSpacing={0}
-                data={lineData}
-                spacing={30}
-                thickness={5}
-                hideRules
-                hideYAxisText
-                yAxisColor="#0BA5A4"
-                showVerticalLines
-                verticalLinesColor="rgba(14,164,164,0.5)"
-                xAxisColor="#0BA5A4"
-                color="#0BA5A4"
-                />
-            </View>
->>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
+        <View style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1 }}>
+                          <FlatList
+                            style={{ flex: 1 }}
+                            ref={flatListRef}
+                            data={runs}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <View>
+                                    <View>{item.time}</View>
+                                    <View>{item.pace}</View>
+                                    <View>{item.distance}</View>
+                                    <View>{item.elevation}</View>
+                                </View>
+                            )}
+                          />
+                    </View>
+                </View>
         </View>
     );
 }
