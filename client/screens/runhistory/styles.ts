@@ -1,12 +1,74 @@
-import { StyleSheet } from "react-native";
+// styles.ts
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: 1,
-        position: 'relative'
-    },
-})
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  header: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 30,
+    textAlign: 'center',
+    letterSpacing: 1.5,
+  },
+  listContainer: {
+    flex: 1,
+  },
+  runCard: {
+    backgroundColor: '#f9f9f9',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#aaa',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 3,
+    borderLeftWidth: 5,
+    borderLeftColor: '#4a90e2',
+  },
+  runHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  runDate: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#4a90e2',
+  },
+  runTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#333',
+    textAlign: 'right',
+  },
+  runRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 4,
+  },
+  runLabel: {
+    fontSize: 14,
+    color: '#777',
+  },
+  runValue: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#555',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#ddd',
+    marginVertical: 8,
+  },
+});
 
 export default styles;

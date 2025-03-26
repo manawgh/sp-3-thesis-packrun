@@ -15,7 +15,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 // TESTING THE REAL-TIME MAP RENDERING (PART 1)
 
-/* import { sendToAPI } from '../../helpers/data'
+import { sendToAPI } from '../../helpers/data'
 
 function* getNextObject () {
     const obj = sendToAPI;
@@ -31,7 +31,7 @@ function* getNextObject () {
     }
 }
 
-const waypointsGenerator = getNextObject(); */
+const waypointsGenerator = getNextObject(); 
 
 export default function HomePage() {
 
@@ -46,7 +46,7 @@ export default function HomePage() {
 
 
     useEffect(() => {
-        // timeout();
+        timeout();
         helpers.getLocation()
         .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
         sparseTracking();
@@ -87,7 +87,7 @@ export default function HomePage() {
 
     // TESTING THE REAL-TIME MAP RENDERING (PART 2)
 
-    /* async function timeout () {
+    async function timeout () {
         console.log('INVOKING TIMEOUT');
         const { done, value: waypoints } = waypointsGenerator.next();
             if (done) return;
@@ -97,13 +97,13 @@ export default function HomePage() {
                     headers: { "Content-type": "application/json" },
                     body: JSON.stringify(waypoints)
                 })
-                const veroute = await response.json();
-                console.log(veroute);
-                setRoute(veroute);
-                setTimeout(timeout, 100);
-            }
-            catch (error) { console.log(error)}
-        } */
+            const veroute = await response.json();
+            console.log(veroute);
+            setRoute(veroute);
+            setTimeout(timeout, 100);
+        }
+        catch (error) { console.log(error)}
+    } 
 
 
     return (
