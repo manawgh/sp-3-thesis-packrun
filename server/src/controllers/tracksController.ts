@@ -13,7 +13,6 @@ export async function postTrack(req: Request, res: Response) {
   if (req.body && Object.keys(req.body).includes('coords')) {
 
     const result = await addToTracking(userId, trackId, req.body);
-
     if (result) res.status(200).json(result);
     else res.status(500).send('Server error');
 

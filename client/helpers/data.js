@@ -1,6 +1,6 @@
-// ---- DATA FORMATS ----
+// ---- DATA FORMATS FOR TESTING ----
 
-/* const sendToAPI = { // already stringified
+export const sendToAPI = {
   "mode":"walk",
   "waypoints":[
       {"timestamp":"2025-01-31T12:32:52.000Z","location":[13.515031,52.468795]},
@@ -66,9 +66,9 @@
       {"timestamp":"2025-01-31T12:33:52.000Z","location":[13.517041,52.469339]},
       {"timestamp":"2025-01-31T12:33:53.000Z","location":[13.517053,52.469345]}
   ]
-}; */
+};
 
-const responseFromAPI = {
+export const responseFromAPI = {
   "type": "FeatureCollection",
   "features": [
       {

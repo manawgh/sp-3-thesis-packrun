@@ -3,9 +3,10 @@ import { Sequelize } from "sequelize";
 const sequelize: Sequelize = new Sequelize({
   dialect: "postgres",
   host: "localhost",
-  username: "db_user",
-  password: "1243",
+  username: "nour",
+  password: "",
   database: "packRunDB",
+  logging: false
 });
 
 export default sequelize; 
