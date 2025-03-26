@@ -3,8 +3,9 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import sequelize from './models/model';
 import cors from 'cors';
-import router from './routers';
+
 import bodyParser from 'body-parser';
+import router from './router';
 const app: Application = express();
 const server = createServer(app);
 const io = new Server(server, {
