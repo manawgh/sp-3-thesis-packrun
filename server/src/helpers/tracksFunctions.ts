@@ -4,7 +4,6 @@ import TrackModel from "../models/trackModel";
 import { Location } from "../types";
 
 export async function addToTracking(owner: string, trackId: string, location: Location) {
-<<<<<<< HEAD
 
   const trackObject = await TrackModel.findOne({ where: { id: trackId, owner } });
 
