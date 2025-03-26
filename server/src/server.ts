@@ -35,7 +35,6 @@ io.on('connection', (socket) => {
     console.log('socket stuff gone???');
   });
 });
-// server.listen(port, () => console.log(`Server running at port ${port}!`));
 
 (async () => {
   try {

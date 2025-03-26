@@ -33,6 +33,6 @@ export type LocationObjectCoords = {
 
 export type Location = {
   coords: LocationObjectCoords;
-  timestamp: string;
-  //userAlias: string;
+  timestamp: Date;
+  userId: string;
 }

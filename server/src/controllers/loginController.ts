@@ -13,7 +13,8 @@ export async function logUser(req: Request, res: Response, next: Function) {
   else if (incorrectCoordinates(req)) res.status(400).json('Incorrect coordinates ');
   else {
 
-    const { userId, longitude, latitude } = req.body;
+    const { userId } = req.body;
+    const { longitude, latitude } = req.body.coords;
     const runner: Runner = { userId, longitude, latitude }
 
     const isRunnerLoggedIn = await RunnerModel.findOne({ where: { userId } });
@@ -27,15 +28,10 @@ export async function logUser(req: Request, res: Response, next: Function) {
 }
 
 function isMissingFields(req: Request): boolean {
-  /*  return !req.body || Object.keys(req.body).length === 0
-     || !Object.keys(req.body).includes('longitude') || !Object.keys(req.body).includes('latitude')
-     || !Object.keys(req.body).includes('userId') */
-
   return !req.body || Object.keys(req.body).length === 0
     || !Object.keys(req.body).includes('userId') || !Object.keys(req.body).includes('coords')
     || !Object.keys(req.body.coords).includes('longitude')
     || !Object.keys(req.body.coords).includes('latitude');
-
 }
 
 function incorrectCoordinates(req: Request) {
@@ -49,11 +45,11 @@ async function checkExpiringSessions() {
 
   if (expiringRunners && expiringRunners.length !== 0) {
     Promise.all(expiringRunners.map(async (runner) => removeRunnerFromChatRoom(runner.userId, runner.assignedChatRoom)))
-      .then(() => checkForEmptyChatRooms())
-      .catch(err => console.log(err));
-  } else console.log('nada aun');
-  await RunnerModel.destroy({ where: { updatedAt: { [Op.lt]: new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000) } } });
+      .catch(err => console.log(err))
+      .finally(() => checkForEmptyChatRooms());
 
+  }
+  await RunnerModel.destroy({ where: { updatedAt: { [Op.lt]: new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000) } } });
 }
 
 async function checkForEmptyChatRooms() {

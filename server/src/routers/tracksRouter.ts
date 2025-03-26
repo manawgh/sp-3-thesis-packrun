@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 
 import { checkIfLogged } from '../controllers/loginController';
-import { getAllMessages, postMessage } from '../controllers/chatController';
 import { createNewTrack, deleteTrack, getTrack, getTracksInfo, postTrack } from '../controllers/tracksController';
 
 

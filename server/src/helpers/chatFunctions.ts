@@ -1,4 +1,3 @@
-import { run } from "node:test";
 import ChatRoomModel, { chatRoom } from "../models/chatRoomModel";
 import RunnerModel, { Runner } from "../models/runnerModel";
 
@@ -60,6 +59,7 @@ async function getNearestChatRoom(referencePoint: Runner): Promise<string | unde
     console.log(err);
   }
 }
+
 export async function removeRunnerFromChatRoom(runnerId: string, chatRoomId: string) {
 
   if (chatRoomId && runnerId) {
