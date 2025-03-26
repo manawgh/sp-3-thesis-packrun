@@ -47,7 +47,7 @@ export default function HomePage() {
     const shoe = require('../../assets/running-shoe.png')
     
     useEffect(() => {
-        // timeout(); (FOR TESTING REAL-TIME RENDERING)
+        // timeout(); // (FOR TESTING REAL-TIME RENDERING)
         helpers.getLocation()
         .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
         sparseTracking();
@@ -63,6 +63,7 @@ export default function HomePage() {
     function sparseTracking () {
         setRunning(!running);
         clearInterval(shortIntervalID);
+        setRoute({});
         setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
     }
     
@@ -103,31 +104,6 @@ export default function HomePage() {
         catch (error) {console.log(error)}
     } */
 
-    const Blink = ({ children, style }) => {
-        const fadeAnim = useRef(new Animated.Value(0)).current;
-
-        useEffect(() => {
-          Animated.loop(
-            Animated.sequence([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver:true,
-          }),
-          Animated.timing(fadeAnim,{
-            toValue:0,
-            duration: 1000,
-            useNativeDriver: true,
-          }),
-        ]), {iterations: Infinity}).start();}, [fadeAnim]);
-    
-        return (
-            <Animated.View style={[style, { opacity: fadeAnim }]}>
-            {children}
-            </Animated.View>
-          );
-        };
-
  
     return (
         <SafeAreaView>
@@ -162,16 +138,11 @@ export default function HomePage() {
 
                         { running
                         ?
-
-                            <Blink>
-                                <View>
-                                <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
-                                    <View style={{ transform: [{ rotate: '-45deg' }] }}>
-                                        <Text style={styles.btntext}>Stop</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                </View>
-                            </Blink>
+                        <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
+                            <View style={{ transform: [{ rotate: '-45deg' }] }}>
+                                <Text style={styles.btntext}>Stop</Text>
+                            </View>
+                        </TouchableOpacity>
                         :
                         <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
                         <View style={{ transform: [{ rotate: '-45deg' }] }}>
@@ -195,15 +166,7 @@ const lineStyle: LineLayerStyle = {
 
 
   /* import { Button, Pressable, Text, View, StyleSheet, Animated, useAnimatedValue } from 'react-native';
-import styles from '../helpers/Styles';
-import React, { useState, useEffect } from 'react';
-import helpers from '../helpers/helper';
-import { MapView, Camera, MarkerView } from '@maplibre/maplibre-react-native';
-export default function App() {
-  // const apiKey = 'cb784781-32a1-4bb3-9cb6-c5a229285af8';
-  const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${apiKey}`;
-  const [coords, setCoords] = useState([]);
-  const [text, setText] = useState('');
+
   useEffect(() => {
     helpers.GPS.getLocation(setCoords, setText).then( () => console.log(coords));
   }, []);
@@ -226,6 +189,7 @@ export default function App() {
     {iterations: Infinity}
   ).start();
     },[fadeAnim]);
+
     return (
       <Animated.View style={{...props.style,
         opacity:fadeAnim,
@@ -234,12 +198,7 @@ export default function App() {
       </Animated.View>
     );
   };
-  return (
-    <View style={styles.homePage.mainContainer}>
-      <View style={styles.homePage.mapMessage}>
-        <Text style={styles.homePage.message}>{text}</Text>
-      </View>
-      <View style={styles.page} />
+
       <Blink>
         <Pressable   style={styles.homePage.top} >
           <Text>
