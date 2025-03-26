@@ -1,6 +1,6 @@
 // react native
-import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Text, View, TouchableOpacity, SafeAreaView, Animated, useAnimatedValue } from 'react-native';
 
 // helpers
 import helpers from '../../helpers/helper';
@@ -44,25 +44,23 @@ export default function HomePage() {
     const [shortIntervalID, setSID] = useState<NodeJS.Timeout>(0);
     const [markerHack, setMarkerHack] = useState(false);
     const [route, setRoute] = useState<GeoJSON.FeatureCollection>();
-
     const shoe = require('../../assets/running-shoe.png')
-
+    
     useEffect(() => {
-        // timeout();
+        // timeout(); (FOR TESTING REAL-TIME RENDERING)
         helpers.getLocation()
         .then( locationObject => setCoords([locationObject.coords.longitude, locationObject.coords.latitude]))
         sparseTracking();
     }, []);
-
+    
     // hack: makes sure the marker appears on initial load
     useEffect(() => {
         setTimeout( () => {
             setMarkerHack(true);
         }, 100);
     }, [coords.length]);
-
+    
     function sparseTracking () {
-        // helpers.saveRun();
         setRunning(!running);
         clearInterval(shortIntervalID);
         setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
@@ -72,16 +70,18 @@ export default function HomePage() {
         setRunning(!running);
         clearInterval(longIntervalID);
         setSID(setInterval( () => helpers.trackCurrentRun()
-        .then( (responseFromAPI: GeoJSON.FeatureCollection | undefined) => { // todo: check if first or last point?
+        .then( (responseFromAPI: GeoJSON.FeatureCollection | undefined) => {
             if (responseFromAPI) {
-                setCoords([responseFromAPI.features[0].properties!.waypoints[0].location[0], responseFromAPI.features[0].properties!.waypoints[0].location[1]]);
+                const waypoints = responseFromAPI.features[0].properties!.waypoints;
+                setCoords([
+                    waypoints[waypoints.length-1].location[0],
+                    waypoints[waypoints.length-1].location[1]])
                 setRoute(responseFromAPI);
             }
         }), 7000))
         
     }
-
-
+    
     // TESTING THE REAL-TIME MAP RENDERING (PART 2)
 
     /* async function timeout () {
@@ -103,7 +103,32 @@ export default function HomePage() {
         catch (error) {console.log(error)}
     } */
 
+    const Blink = ({ children, style }) => {
+        const fadeAnim = useRef(new Animated.Value(0)).current;
 
+        useEffect(() => {
+          Animated.loop(
+            Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver:true,
+          }),
+          Animated.timing(fadeAnim,{
+            toValue:0,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]), {iterations: Infinity}).start();}, [fadeAnim]);
+    
+        return (
+            <Animated.View style={[style, { opacity: fadeAnim }]}>
+            {children}
+            </Animated.View>
+          );
+        };
+
+ 
     return (
         <SafeAreaView>
             <View style={global.container}>
@@ -137,11 +162,16 @@ export default function HomePage() {
 
                         { running
                         ?
-                        <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
-                            <View style={{ transform: [{ rotate: '-45deg' }] }}>
-                                <Text style={styles.btntext}>Stop</Text>
-                            </View>
-                        </TouchableOpacity>
+
+                            <Blink>
+                                <View>
+                                <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
+                                    <View style={{ transform: [{ rotate: '-45deg' }] }}>
+                                        <Text style={styles.btntext}>Stop</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                </View>
+                            </Blink>
                         :
                         <TouchableOpacity style={styles.startbtn} onPress={denseTracking}>
                         <View style={{ transform: [{ rotate: '-45deg' }] }}>
@@ -162,3 +192,58 @@ const lineStyle: LineLayerStyle = {
     lineColor: 'blue',
     lineWidth: 5
   };
+
+
+  /* import { Button, Pressable, Text, View, StyleSheet, Animated, useAnimatedValue } from 'react-native';
+import styles from '../helpers/Styles';
+import React, { useState, useEffect } from 'react';
+import helpers from '../helpers/helper';
+import { MapView, Camera, MarkerView } from '@maplibre/maplibre-react-native';
+export default function App() {
+  // const apiKey = 'cb784781-32a1-4bb3-9cb6-c5a229285af8';
+  const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${apiKey}`;
+  const [coords, setCoords] = useState([]);
+  const [text, setText] = useState('');
+  useEffect(() => {
+    helpers.GPS.getLocation(setCoords, setText).then( () => console.log(coords));
+  }, []);
+  const Blink = props => {
+    const fadeAnim = useAnimatedValue(0);
+    useEffect(() => {
+      Animated.loop(
+        Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver:true,
+      }),
+      Animated.timing(fadeAnim,{
+        toValue:0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]),
+    {iterations: Infinity}
+  ).start();
+    },[fadeAnim]);
+    return (
+      <Animated.View style={{...props.style,
+        opacity:fadeAnim,
+      }}>
+        {props.children}
+      </Animated.View>
+    );
+  };
+  return (
+    <View style={styles.homePage.mainContainer}>
+      <View style={styles.homePage.mapMessage}>
+        <Text style={styles.homePage.message}>{text}</Text>
+      </View>
+      <View style={styles.page} />
+      <Blink>
+        <Pressable   style={styles.homePage.top} >
+          <Text>
+            Stop
+            </Text>
+          </Pressable>
+      </Blink> */
