@@ -56,7 +56,6 @@ export async function createTrack(owner: string) {
   const newTrack = { owner, location: [], converted: {} };
   const isTrackCreated = await TrackModel.create(newTrack);
   return { trackId: isTrackCreated.id };
-<<<<<<< HEAD
 }
 
 export async function getTrackFromDb(owner: string, id: string) {
