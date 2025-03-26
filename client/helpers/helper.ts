@@ -14,7 +14,7 @@ async function getNearestChatroom () {
   currenChatLocation.username = "Bob";
   currenChatLocation.userId = 'cdwks_vera25';
   try {
-    const response = await fetch(url + ':3000/location', {
+    const response = await fetch(url + ':3000/locations', {
       method: "post", body: JSON.stringify(currenChatLocation),
       headers: { "Content-type": "application/json" }
     });
