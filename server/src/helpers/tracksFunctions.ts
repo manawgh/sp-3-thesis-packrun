@@ -116,8 +116,4 @@ total distance
 elevation
 speed?
 
-*/
-=======
-
-}
 >>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
