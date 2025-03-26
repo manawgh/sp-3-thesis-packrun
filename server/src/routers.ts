@@ -12,12 +12,13 @@ router.post('/location', logUser, assignChatRoom);
 //creates a new track and returns a trackId
 router.put('/tracks/:userId', createNewTrack);
 
-//stores your locations in the newTrack using it's id
+//adds locations to the new track and returns Geoapifyed Object
 router.post('/tracks/:userId/:trackId', postTrack);
 
 
-
+//returns an array with the user tracks
 router.get('/tracks/:userId/', getTracksInfo);
+//returns a GeoApifyedObject 
 router.get('/tracks/:userId/:trackId', getTrack);
 router.delete('/tracks/:userId/:trackId', deleteTrack);
 

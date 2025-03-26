@@ -8,13 +8,18 @@ export async function addToTracking(owner: string, trackId: string, location: Lo
 
   if (trackObject) {
     trackObject.location = [...trackObject.location, location];
-    await trackObject.save();
 
     const result = await transformToGeoApify(trackObject.location);
+    if (result && result.features) {
+      trackObject.distance = result.features[0].properties.distance;
+      trackObject.estimatedTime = result.features[0].properties.time;
+    }
+    await trackObject.save();
     return result;
 
   }
 }
+
 async function transformToGeoApify(locations: Location[]) {
   if (locations.length > 1) {
 
@@ -25,6 +30,7 @@ async function transformToGeoApify(locations: Location[]) {
 
   } else return 'not enought waypoints';
 }
+
 async function convertToGeoApify(request: any) {
   const URL = 'https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7';
   const response = await fetch(URL, {
@@ -67,7 +73,25 @@ export async function deleteTrackFromDb(owner: string, id: string) {
 export async function getTracksInfoFromDb(owner: string) {
   const tracks = await TrackModel.findAll({ where: { owner } });
   if (tracks) {
-   
+    console.log('tracks', tracks.length, tracks);
+    const result = tracks.map(track => {
+      return {
+        trackId: track.id,
+        estimatedTime: track.estimatedTime,
+        distance: track.distance,
+        createdAt: track.dataValues.createdAt,
+        updatedAt: track.dataValues.updatedAt,
+      };
+    });
+    return result;
   }
 
 }
+
+/*
+total time
+total distance
+elevation
+speed?
+
+*/
