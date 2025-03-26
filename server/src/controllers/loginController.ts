@@ -60,5 +60,11 @@ async function logoutUser(runner: Runner) {
     runnerEntry.destroy();
   }
 }
+export async function checkIfLogged(req: Request, res: Response, next: Function) {
+  const userId = req.params.userId;
+  const isLoggedIn = await RunnerModel.findOne({ where: { userId } });
 
+  isLoggedIn? next(): res.status(400).send('User not logged in');
+
+}
 setInterval(checkExpiringSessions, 1000 * 60 * LOGIN_EXPIRES_MINUTES / 2);
