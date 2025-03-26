@@ -1,6 +1,4 @@
 <<<<<<< HEAD
-import { where } from "sequelize";
-=======
 >>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
 import TrackModel from "../models/trackModel";
 import { Location } from "../types";
