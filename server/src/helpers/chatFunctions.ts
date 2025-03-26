@@ -105,6 +105,8 @@ function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 
 }
+<<<<<<< HEAD
+=======
 
 
 
@@ -131,3 +133,4 @@ export function getNearbyRunners(req: Request, res: Response) {
   }
 }
 */
+>>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
