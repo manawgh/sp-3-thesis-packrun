@@ -105,29 +105,3 @@ function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 
 }
-
-
-
-/* 
-export function getNearbyRunners(req: Request, res: Response) {
-  async (req: Request, res: Response) => {
-    const runnerId = req.params.id;
-    const distance = req.params.distance;
-    sequelize.query(
-      `SELECT * FROM get_nearby_runners(:runner_id, :distance)`,
-      {
-        replacements: { runner_id: runnerId, distance: distance },
-        type: QueryTypes.SELECT
-      }
-    )
-      .then((results) => {
-        console.log("Function results:", results);
-        res.status(200).json(results);
-      })
-      .catch((error) => {
-        console.error("Error calling function:", error);
-        res.status(404);
-      });
-  }
-}
-*/

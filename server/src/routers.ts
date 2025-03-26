@@ -2,21 +2,30 @@ import express, { Router } from 'express';
 
 import { logUser } from './controllers/loginController';
 import { getAllMessages, assignChatRoom, postMessage } from './controllers/chatController';
-
+import { createNewTrack, getTracksInfo, getTrack, postTrack, deleteTrack } from './controllers/tracksController';
 
 const router: Router = express.Router();
 
-
+//logs the user in and returns a userId
 router.post('/location', logUser, assignChatRoom);
 
-//todo add tracks
-// router.post('/tracks/:userId')
-//https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7
-router.get('/messages/:userId', getAllMessages);
+//creates a new track and returns a trackId
+router.put('/tracks/:userId', createNewTrack);
 
-// expected body: {author: string, message: string, time: stringDate}
-router.post('/message/:userId', postMessage);
+//adds locations to the new track and returns Geoapifyed Object
+router.post('/tracks/:userId/:trackId', postTrack);
+
+
+//returns an array with the user tracks
+router.get('/tracks/:userId/', getTracksInfo);
+//returns a GeoApifyedObject 
+router.get('/tracks/:userId/:trackId', getTrack);
+router.delete('/tracks/:userId/:trackId', deleteTrack);
+
+
+
+router.get('/messages/:userId', getAllMessages);
+router.post('/message/:userId', postMessage); // expected body: {author: string, message: string, time: stringDate}
 
 
 export default router;
-

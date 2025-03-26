@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import RunnerModel, { Runner } from "../models/runnerModel";
-import { removeRunnerFromChatRoom } from "./helperFunctions";
+import { removeRunnerFromChatRoom } from "../helpers/chatFunctions";
 
 //minutes of inactivity to autologout users
 const LOGIN_EXPIRES_MINUTES = 5;

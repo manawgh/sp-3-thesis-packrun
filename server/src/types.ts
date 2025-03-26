@@ -31,8 +31,8 @@ export type LocationObjectCoords = {
   speed: number | null;
 };
 
-export type LocationObj = {
+export type Location = {
   coords: LocationObjectCoords;
-  userId: string;
+  timestamp: string;
   //userAlias: string;
 }
