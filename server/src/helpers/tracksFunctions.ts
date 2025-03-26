@@ -32,23 +32,6 @@ async function transformToGeoApify(locations: Location[]) {
 
   } else return 'not enought waypoints';
 }
-
-=======
-  const trackObject = await TrackModel.findOne({ where: { id: trackId, owner } });
-  if (trackObject) {
-    trackObject.location = [...trackObject.location, location];
-    console.log('locatioooon', trackObject.location);
-    await trackObject.save();
-    if (trackObject.location.length > 1) {
-      const formattedToGeo = await formatToGeoApify(trackObject.location);
-      console.log('listo para enviar', JSON.stringify(formattedToGeo));
-      const convertToGeo = await convertToGeoApify(formattedToGeo);
-      console.log('CONVERSEEEE', convertToGeo);
-      return convertToGeo;
-    } else return 'not enought waypoints';
-  }
-}
-
 >>>>>>> ae7e53eb2fa0e1758cf16592722a9613370d4123
 async function convertToGeoApify(request: any) {
   const URL = 'https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7';
