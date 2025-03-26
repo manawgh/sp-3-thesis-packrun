@@ -3,7 +3,6 @@ import { Sequelize } from "sequelize";
 const sequelize: Sequelize = new Sequelize({
   dialect: "postgres",
   host: "localhost",
-<<<<<<< HEAD
   username: "postgres",
   password: "OrangeFire393.",
   database: "packrundb",
