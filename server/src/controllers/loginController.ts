@@ -40,21 +40,20 @@ function incorrectCoordinates(req: Request) {
 
 async function checkExpiringSessions() {
 
-  const expiringRunners = await RunnerModel
-    .findAll({ where: { updatedAt: { [Op.lt]: new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000) } } });
-
-  if (expiringRunners && expiringRunners.length !== 0) {
-    Promise.all(expiringRunners.map(async (runner) => removeRunnerFromChatRoom(runner.userId, runner.assignedChatRoom)))
+  const expiringRunners = await RunnerModel.findAll();
+  if (expiringRunners.length === 0) await ChatRoomModel.destroy({ where: { id: { [Op.gt]: 0 } } });
+  else {
+    Promise.all(expiringRunners.filter(runner => runner.updatedAt <= new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000))
+      .map(async (runner) => removeRunnerFromChatRoom(runner.userId, runner.assignedChatRoom)))
       .catch(err => console.log(err))
       .finally(() => checkForEmptyChatRooms());
-
+    await RunnerModel.destroy({ where: { updatedAt: { [Op.lt]: new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000) } } });
   }
-  await RunnerModel.destroy({ where: { updatedAt: { [Op.lt]: new Date(Date.now() - LOGIN_EXPIRES_MINUTES * 60 * 1000) } } });
 }
 
 async function checkForEmptyChatRooms() {
   const chatRooms = await ChatRoomModel.findAll();
-  chatRooms.forEach(room => room.usersId.length === 0 && room.destroy());
+  Promise.all(chatRooms.map(async (chatRoom) => chatRoom.usersId.length === 0 && await ChatRoomModel.destroy({ where: { chatRoomId: chatRoom.dataValues.chatRoomId } })));
 }
 
 export async function checkIfLogged(req: Request, res: Response, next: Function) {
