@@ -9,10 +9,9 @@ import tracksRouter from './routers/tracksRouter';
 const router: Router = express.Router();
 
 //logs the user in and returns a userId
-router.post('/location', logUser, assignChatRoom);
+router.post('/locations', logUser, assignChatRoom);
 
 router.use('/tracks', tracksRouter);
-router.use('/message', messagesRouter);
-
+router.use('/messages', messagesRouter);
 
 export default router;

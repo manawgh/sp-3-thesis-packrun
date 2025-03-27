@@ -1,4 +1,3 @@
-import { where } from "sequelize";
 import TrackModel from "../models/trackModel";
 import { Location } from "../types";
 
@@ -16,7 +15,6 @@ export async function addToTracking(owner: string, trackId: string, location: Lo
     }
     await trackObject.save();
     return result;
-
   }
 }
 
@@ -79,19 +77,11 @@ export async function getTracksInfoFromDb(owner: string) {
         trackId: track.id,
         estimatedTime: track.estimatedTime,
         distance: track.distance,
+        altitudes: track.location.map(location => { return { value: location.coords.altitude } }),
         createdAt: track.dataValues.createdAt,
         updatedAt: track.dataValues.updatedAt,
       };
     });
     return result;
   }
-
 }
-
-/*
-total time
-total distance
-elevation
-speed?
-
-*/

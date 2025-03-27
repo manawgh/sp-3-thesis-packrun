@@ -12,7 +12,7 @@ export default function RunHistory() {
   const flatListRef = useRef<FlatList>(null);
 
   const getRuns = async () => {
-    const response = await fetch(`http://192.168.68.100:3000/runs/xXBobmanXx`);
+    const response = await fetch(`http://192.168.68.100:3000/tracks/xXBobmanXx`);
     if (!response.ok) throw new Error('Failed to fetch runs');
     const resp = await response.json();
     setRuns(resp);
