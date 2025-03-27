@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  userMessage: {
-    backgroundColor: '#007AFF',
+  messageBubble: {
+    backgroundColor: '#4A90E2',
     padding: 10,
     borderRadius: 10,
     marginVertical: 5,
@@ -58,7 +58,7 @@ export default StyleSheet.create({
   },
   sendButton: {
     marginLeft: 10,
-    backgroundColor: '#3B98FF',
+    backgroundColor: '#4A90E2',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,

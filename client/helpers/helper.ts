@@ -31,7 +31,7 @@ async function getNearestChatroom () {
   };
 };
 
-async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection | undefined> */ {
+async function trackCurrentRun (): Promise<GeoJSON.FeatureCollection | undefined> {
 
   try {
     const trackId = await fetch(url + ':3000/tracks/cdwks_vera25',{
@@ -51,11 +51,10 @@ async function trackCurrentRun ()/* : Promise<GeoJSON.FeatureCollection | undefi
 
       console.log('EVERY 10 SECONDS', response);
       
-    /* if (response.ok) {  
+    if (response.ok) {  
       const geoObject: GeoJSON.FeatureCollection = await response.json()
-      console.log('LINE 50', geoObject);
       return geoObject;
-    } */
+    }
   }
   catch (error: any) {
       console.error(error.message);

@@ -26,16 +26,16 @@ export default function App() {
       <NavigationContainer>
         <NavBar.Navigator screenOptions={{headerShown: true, tabBarShowLabel: false, tabBarStyle: {height: 100, paddingTop: 20}}}>
           <NavBar.Screen name={'Run'} component={HomePage} options={{tabBarIcon:({focused})=>(
-            <Image source={icons.run} style={{width:37, height:37, tintColor: focused ? '#3B98FF' : '#000000'}}/>
+            <Image source={icons.run} style={{width:37, height:37, tintColor: focused ? '#4A90E2' : '#000000'}}/>
           )}}/>
           <NavBar.Screen name='Metrics' component={RunTracking} options={{tabBarIcon:({focused})=>(
-            <Image source={icons.metrics} style={{width:37, height:37, tintColor: focused ? '#3B98FF' : '#000000'}}/>
+            <Image source={icons.metrics} style={{width:37, height:37, tintColor: focused ? '#4A90E2' : '#000000'}}/>
           )}}/>
           <NavBar.Screen name='History' component={RunHistory} options={{tabBarIcon:({focused})=>(
-            <Image source={icons.history} style={{width:37, height:37, tintColor: focused ? '#3B98FF' : '#000000'}}/>
+            <Image source={icons.history} style={{width:37, height:37, tintColor: focused ? '#4A90E2' : '#000000'}}/>
           )}}/>
           <NavBar.Screen name='Chat' component={ChatScreen} options={{tabBarIcon:({focused})=>(
-            <Image source={icons.chat} style={{width:37, height:37, tintColor: focused ? '#3B98FF' : '#000000'}}/>
+            <Image source={icons.chat} style={{width:37, height:37, tintColor: focused ? '#4A90E2' : '#000000'}}/>
           )}}/>
         </NavBar.Navigator>
       </NavigationContainer>

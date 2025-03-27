@@ -1,14 +1,12 @@
-// styles.ts
 import { StyleSheet, Dimensions } from 'react-native';
-
 const { width } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 25,
+    position: 'relative'
   },
   header: {
     fontSize: 32,
@@ -22,9 +20,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   runCard: {
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#F9F9F9',
     borderRadius: 16,
     padding: 20,
+    paddingBottom: 0,
     marginBottom: 20,
     shadowColor: '#aaa',
     shadowOffset: { width: 0, height: 4 },
@@ -32,17 +31,21 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 3,
     borderLeftWidth: 5,
-    borderLeftColor: '#4a90e2',
+    borderLeftColor: '#4A90E2',
   },
   runHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 12,
   },
+  runProfile: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   runDate: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#4a90e2',
+    color: '#4A90E2',
   },
   runTitle: {
     fontSize: 18,
@@ -69,6 +72,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     marginVertical: 8,
   },
+  refresh: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    opacity: 0.8
+  }
 });
-
 export default styles;
