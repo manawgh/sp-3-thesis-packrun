@@ -77,6 +77,7 @@ export async function getTracksInfoFromDb(owner: string) {
         trackId: track.id,
         estimatedTime: track.estimatedTime,
         distance: track.distance,
+        altitudes: track.location.map(location => { return { value: location.coords.altitude } }),
         createdAt: track.dataValues.createdAt,
         updatedAt: track.dataValues.updatedAt,
       };
