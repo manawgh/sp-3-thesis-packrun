@@ -1,5 +1,5 @@
 // react native
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView, Animated, useAnimatedValue } from 'react-native';
 
 // helpers
@@ -46,6 +46,8 @@ export default function HomePage() {
     const [markerHack, setMarkerHack] = useState(false);
     const [route, setRoute] = useState<GeoJSON.FeatureCollection>();
     const shoe = require('../../assets/running-shoe.png')
+    const mapRef = useRef(null);
+    const [snapshotURI, setSnapshotURI] = useState(null);
 
     useEffect(() => {
         timeout(); // (UNCOMMENT FOR TESTING REAL-TIME RENDERING)
@@ -149,7 +151,7 @@ export default function HomePage() {
 
                             <Camera zoomLevel={16} centerCoordinate={coords} />
 
-                            {running
+                            { running
                                 ?
                                 <MarkerView coordinate={coords}>
                                     <FontAwesome5 name="running" size={30} color="black" />
@@ -169,7 +171,7 @@ export default function HomePage() {
                                 <View></View>
                             }
 
-                            {running
+                            { running
                                 ?
                                 <TouchableOpacity style={styles.stopbtn} onPress={sparseTracking}>
                                     <Blink style={{ transform: [{ rotate: '-45deg' }] }}>
@@ -193,6 +195,6 @@ export default function HomePage() {
 }
 
 const lineStyle: LineLayerStyle = {
-    lineColor: 'blue',
+    lineColor: '#4A90E2',
     lineWidth: 5
 };
