@@ -65,7 +65,7 @@ export default function HomePage() {
             clearInterval(shortIntervalID);
         }
         
-        setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
+        // setLID(setInterval( () => helpers.getNearestChatroom(), 3000 ));
     }
     
     function denseTracking () {
@@ -74,7 +74,7 @@ export default function HomePage() {
             clearInterval(longIntervalID);
         }
         console.log('hello');
-        setSID(setInterval( () => helpers.trackCurrentRun(), 10000))
+        // setSID(setInterval( () => helpers.trackCurrentRun(), 10000))
         /* setSID(setInterval( () => {
             helpers.trackCurrentRun(), 10000})) */
             /* .then( (responseFromAPI: GeoJSON.FeatureCollection | undefined) => { // todo: check if first or last point?

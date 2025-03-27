@@ -12,13 +12,14 @@ async function getLocation (): Promise<Location.LocationObject> {
 async function getNearestChatroom () {
   const currentChatLocation: Partial<CustomLocationObject> = await getLocation();
   const userId = 'xXBobmanXx';
+  const longitude =  currentChatLocation.coords?.longitude
+  const latitude =  currentChatLocation.coords?.latitude
   const locationObj = {
     userId: userId, 
-    longitude: currentChatLocation.coords?.longitude ?? 0, 
-    latitude: currentChatLocation.coords?.latitude ?? 0,
+    coords: {longitude: longitude, latitude: latitude}
   }
   try {
-    const response = await fetch(url + ':3000/location', {
+    const response = await fetch(url + ':3000/locations', {
       method: "post", body: JSON.stringify(locationObj),
       headers: { "Content-type": "application/json" }
     });

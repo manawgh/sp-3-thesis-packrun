@@ -41,7 +41,7 @@ async function createNewChatRoom(runner: Runner) {
   return isChatRoomCreated ? chatRoomId : undefined;
 }
 
-async function n(referencePoint: Runner): Promise<string | undefined> {
+async function getNearestChatRoom(referencePoint: Runner): Promise<string | undefined> {
   try {
     const nearestChatRoom = await ChatRoomModel.findAll();
     if (nearestChatRoom) {
@@ -59,18 +59,7 @@ async function n(referencePoint: Runner): Promise<string | undefined> {
     console.log(err);
   }
 }
-async function getNearestChatRoom(referencePoint: Runner) {
 
-  const nearestChatRoom = await ChatRoomModel.findAll();
-  if (nearestChatRoom && nearestChatRoom.length !== 0) {
-    const result = nearestChatRoom.map(chatRoom => { return { ...chatRoom, distance: calculateDistance(referencePoint, chatRoom) } })
-      .filter(chatRoom => chatRoom.distance <= CHAT_ROOM_AREA_IN_MTS + CHAT_ROOM_TOLERANCY);
-
-    if (result.length === 1) return result[0].dataValues.chatRoomId;
-    else return result.reduce((acum, chatRoom) => chatRoom.distance <= acum.distance ? chatRoom : acum).dataValues.chatRoomId;
-  }
-
-}
 export async function removeRunnerFromChatRoom(runnerId: string, chatRoomId: string) {
 
   if (chatRoomId && runnerId) {
@@ -116,29 +105,3 @@ function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 
 }
-
-
-
-/* 
-export function getNearbyRunners(req: Request, res: Response) {
-  async (req: Request, res: Response) => {
-    const runnerId = req.params.id;
-    const distance = req.params.distance;
-    sequelize.query(
-      `SELECT * FROM get_nearby_runners(:runner_id, :distance)`,
-      {
-        replacements: { runner_id: runnerId, distance: distance },
-        type: QueryTypes.SELECT
-      }
-    )
-      .then((results) => {
-        console.log("Function results:", results);
-        res.status(200).json(results);
-      })
-      .catch((error) => {
-        console.error("Error calling function:", error);
-        res.status(404);
-      });
-  }
-}
-*/

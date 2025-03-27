@@ -5,7 +5,7 @@ import { Op } from "sequelize";
 import ChatRoomModel from "../models/chatRoomModel";
 
 //minutes of inactivity to autologout users
-const LOGIN_EXPIRES_MINUTES = 1;
+const LOGIN_EXPIRES_MINUTES = 10000000;
 
 export async function logUser(req: Request, res: Response, next: Function) {
 

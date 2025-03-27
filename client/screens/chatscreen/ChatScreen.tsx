@@ -24,7 +24,9 @@ export default function Chatscreen() {
     socket.on('message', (message: { author: string; time: string; message: string }) => {
       setMessages(prev => [...prev, message]);
     });
-    getMessages();
+    setInterval(() => {
+      getMessages();
+    }, 5000)
     return () => {
       socket.off('message');
     };
@@ -36,7 +38,7 @@ export default function Chatscreen() {
       const time = Date.now().toString();
       const message = { author: userId, time: time, message: input };
       try {
-        const response = await fetch(`http://192.168.68.100:3000/message/${userId}`, {
+        const response = await fetch(`http://192.168.68.100:3000/messages/${userId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(message),
@@ -45,7 +47,7 @@ export default function Chatscreen() {
         if (!response.ok) throw new Error('Failed to send message');
   
         await response.json();
-        console.log('Message saved:', message);
+        // console.log('Message saved:', message);
   
         socket.emit('message', message);
         setInput('');
@@ -62,9 +64,9 @@ export default function Chatscreen() {
   const botSendMessage = async () => {
     const userId = 'Bertha Coolshoes';
     const time = Date.now().toString();
-    const message = { author: userId, time: time, message: 'how about saturday, 9am?' };
+    const message = { author: userId, time: time, message: '9am saturday?' };
     try {
-      const response = await fetch(`http://192.168.68.100:3000/message/${userId}`, {
+      const response = await fetch(`http://192.168.68.100:3000/messages/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(message),
