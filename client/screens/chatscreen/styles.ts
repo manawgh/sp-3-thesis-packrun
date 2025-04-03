@@ -19,6 +19,15 @@ export default StyleSheet.create({
     maxWidth: '80%',
     marginLeft: 4
   },
+  userMessage: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5,
+    alignSelf: 'flex-end',
+    maxWidth: '80%',
+    marginLeft: 4
+  },
   messageText: {
     color: '#fff',
     fontSize: 16,

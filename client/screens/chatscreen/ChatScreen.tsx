@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import io from 'socket.io-client';
 import styles from './styles';
 
-const socket = io('http://192.168.68.100:3000', { transports: ['websocket'] });
+const socket = io('http://192.168.68.101:3000', { transports: ['websocket'] });
 
 export default function Chatscreen() {
   const [messages, setMessages] = useState<{ author: string; time: string; message: string }[]>([]);
@@ -13,7 +13,7 @@ export default function Chatscreen() {
   const flatListRef = useRef<FlatList>(null);
 
   const getMessages = async () => {
-    const response = await fetch(`http://192.168.68.100:3000/messages/xXBobmanXx`);
+    const response = await fetch(`http://192.168.68.101:3000/messages/xXBobmanXx`);
     if (!response.ok) throw new Error('Failed to fetch messages');
     
     const resp = await response.json();
@@ -38,7 +38,7 @@ export default function Chatscreen() {
       const time = Date.now().toString();
       const message = { author: userId, time: time, message: input };
       try {
-        const response = await fetch(`http://192.168.68.100:3000/messages/${userId}`, {
+        const response = await fetch(`http://192.168.68.101:3000/messages/${userId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(message),
@@ -66,7 +66,7 @@ export default function Chatscreen() {
     const time = Date.now().toString();
     const message = { author: userId, time: time, message: '9am saturday?' };
     try {
-      const response = await fetch(`http://192.168.68.100:3000/messages/${userId}`, {
+      const response = await fetch(`http://192.168.68.101:3000/messages/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(message),

@@ -3,9 +3,9 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import sequelize from './models/model';
 import cors from 'cors';
-
 import bodyParser from 'body-parser';
 import router from './router';
+
 const app: Application = express();
 const server = createServer(app);
 const io = new Server(server, {
@@ -14,6 +14,7 @@ const io = new Server(server, {
     methods: ['GET', 'POST']
   }
 });
+
 const port = 3000;
 const corsOptions = {
   origin: '*',
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use('/', router);
+
 io.on('connection', (socket) => {
   console.log('socket stuff coming!!!');
   socket.on('message', msg => {
@@ -58,3 +60,6 @@ io.on('connection', (socket) => {
     console.log(error);
   }
 })();
+
+
+
