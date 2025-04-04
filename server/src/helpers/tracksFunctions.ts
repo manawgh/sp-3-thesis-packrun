@@ -30,7 +30,7 @@ async function transformToGeoApify(locations: Location[]) {
 }
 
 async function convertToGeoApify(request: any) {
-  const URL = 'https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7';
+  const URL = `https://api.geoapify.com/v1/mapmatching?apiKey=${process.env.GEOPIFY_MAP_MATCHING_API_KEY}`;
   const response = await fetch(URL, {
     method: "post",
     headers: { "Content-Type": "application/json" },

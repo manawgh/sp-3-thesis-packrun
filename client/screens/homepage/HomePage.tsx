@@ -37,8 +37,7 @@ const waypointsGenerator = getNextObject();
 
 export default function HomePage() {
 
-    const apiKey = 'aeeb6ec8-5770-404c-8f6d-271cad7b3798';
-    const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${apiKey}`;
+    const styleURL = `https://tiles.stadiamaps.com/styles/outdoors.json?api_key=${process.env.STADIA_MAPS_MAP_TILES_API_KEY}`;
     const [coords, setCoords] = useState<number[]>([]);
     const [running, setRunning] = useState(true);
     const [longIntervalID, setLID] = useState<NodeJS.Timeout | null>(null);
@@ -100,7 +99,7 @@ export default function HomePage() {
         const { done, value: latestWaypoints } = waypointsGenerator.next();
         if (done) return;
         try {
-            const response = await fetch('https://api.geoapify.com/v1/mapmatching?apiKey=195e52b3f3a64bdb903a12bf0fea9ca7', {
+            const response = await fetch(`https://api.geoapify.com/v1/mapmatching?apiKey=${process.env.GEOPIFY_MAP_MATCHING_API_KEY}`, {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify(latestWaypoints)

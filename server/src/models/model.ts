@@ -3,9 +3,9 @@ import { Sequelize } from "sequelize";
 const sequelize: Sequelize = new Sequelize({
   dialect: "postgres",
   host: "localhost",
-  username: "postgres",
-  password: "OrangeFire393.",
-  database: "packrundb",
+  database: process.env.DB_NAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
 });
 
 export default sequelize; 
