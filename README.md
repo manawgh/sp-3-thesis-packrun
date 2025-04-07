@@ -25,4 +25,4 @@ Archie Maunder-Taylor: https://github.com/a-rchi-e
 Vera Kijewski - https://github.com/zwerpirat
 David Luque - https://github.com/daiV
 Rawad Nounou - https://github.com/rawad123321
-Paul Paumier Martinez - https://github.com/manawgh
+Paul Paumier Martinez - https://github.com/nimbus4gh
