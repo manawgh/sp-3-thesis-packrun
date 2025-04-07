@@ -6,7 +6,7 @@ import styles from './styles';
 import { useRun } from '../../context/RunContext';
 import { io } from 'socket.io-client';
 
-const socket = io('http://192.168.68.100:3000', { transports: ['websocket'] });
+const socket = io('http://192.168.1.192:3000', { transports: ['websocket'] });
 
 export default function CurrentRun() {
     const [runDetails, setRunDetails] = useState<{ time: string; pace: string; distance: string; elevation: string }>({time: '0', pace: '0', distance: '0', elevation: '0'});
